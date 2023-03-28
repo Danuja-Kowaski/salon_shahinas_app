@@ -1,11 +1,10 @@
 import React from "react";
 
-import { Calendar, Button, theme } from "antd";
+import { Calendar, Button } from "antd";
 
 import "./styles.sass";
 
 const HomePage = () => {
-    const { token } = theme.useToken();
 
     const onPanelChange = (value, mode) => {
         console.log(value.format("YYYY-MM-DD"), mode);
