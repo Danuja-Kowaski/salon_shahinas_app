@@ -1,10 +1,6 @@
-import React from "react";
+import { React } from "react";
 
 import { ConfigProvider } from "antd";
-import LoginPage from "./Pages/LoginPage";
-import RegisterPage from "./Pages/RegisterPage";
-import HomePage from "./Pages/HomePage";
-import BookingPage from "./Pages/BookingPage";
 import {
     MailOutlined,
     BellOutlined,
@@ -13,7 +9,13 @@ import {
     UserOutlined,
 } from "@ant-design/icons";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Route, Routes } from "react-router";
+import { Link } from "react-router-dom";
 
+import LoginPage from "./Pages/LoginPage";
+import RegisterPage from "./Pages/RegisterPage";
+import HomePage from "./Pages/HomePage";
+import BookingPage from "./Pages/BookingPage";
 import "./styles.scss";
 
 function App() {
@@ -25,29 +27,44 @@ function App() {
                 },
             }}
         >
-            {/* <LoginPage /> */}
-            {/* <RegisterPage /> */}
-            {/* <HomePage /> */}
-            <BookingPage />
+            <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/booking" element={<BookingPage />} />
+            </Routes>
             <div className="navbar">
-                <div className="nav-item">
+                <CustomLink to="/messages">
                     <MailOutlined />
-                </div>
-                <div className="nav-item">
+                </CustomLink>
+                <CustomLink to="/notifications">
                     <BellOutlined />
-                </div>
-                <div className="nav-item active">
+                </CustomLink>
+                <CustomLink to="/home">
                     <HomeOutlined />
-                </div>
-                <div className="nav-item">
+                </CustomLink>
+                <CustomLink to="/booking">
                     <ScheduleOutlined />
-                </div>
-                <div className="nav-item">
+                </CustomLink>
+                <CustomLink to="/account">
                     <UserOutlined />
-                </div>
+                </CustomLink>
             </div>
         </ConfigProvider>
     );
 }
+
+const CustomLink = ({ to, children }) => {
+    let path = window.location.pathname;
+
+    console.log(path);
+
+    return (
+        <Link to={to}>
+            {/* <div className={path === to ? "nav-item active" : "nav-item"}> */}
+            <div className="nav-item">{children}</div>
+        </Link>
+    );
+};
 
 export default App;
