@@ -12,6 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes } from "react-router";
 import { Link } from "react-router-dom";
 
+import BookingSummary from "./Pages/BookingSummary";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import HomePage from "./Pages/HomePage";
@@ -29,11 +30,13 @@ function App() {
             }}
         >
             <Routes>
+                <Route path="/home" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-                <Route path="/home" element={<HomePage />} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/booking" element={<BookingPage />} />
                 <Route path="/booking-confirm" element={<BookingConfirm />} />
+                <Route path="/booking-summary" element={<BookingSummary />} />
             </Routes>
             <div className="navbar">
                 <CustomLink to="/messages">
