@@ -1,7 +1,6 @@
 @import '../../../styles/variables.sass'
 
-.messages-section
-    position: relative
+.notifications-section
     height: calc(100vh - 60px)
     width: 100%
     padding: 20px
@@ -11,31 +10,32 @@
         margin-top: 30px
         margin-bottom: 20px
 
-    .messages-wrapper
+    .notification-item
         display: flex
-        flex-direction: column
-        width: 100%
-        overflow-y: scroll
-        max-height: 70vh
+        flex-direction: row
+        justify-content: space-evenly
+        align-items: center
+        background-color: $secondary
+        padding: 15px 10px 
+        margin-bottom: 15px
+        border-radius: 10px
 
-        .message-item
+        .img-item
+            min-width: 60px
+            height: 60px
+            border-radius: 100%
+            background-color: #9c9c9c
+            border: 2px dashed #1b4e79
+            margin-right: 10px
+
+        .info-item
+            font-size: 12px
 
             p
-                width: fit-content
-                // max-width: 70vw
-                background-color: $secondary
-                padding: 15px 20px 15px 20px
-                border-radius: 14px
-                font-size: 14px
-        
-        .right
-            align-self: flex-end
-            
-            p
-                background-color: $primary
-    
-    .message-input
-        width: 90vw
-        position: absolute
-        bottom: 20px
+                margin: 0
 
+            .title
+                font-weight: bold
+
+            span
+                font-weight: bold

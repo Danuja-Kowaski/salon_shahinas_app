@@ -19,6 +19,7 @@ import HomePage from "./Pages/HomePage";
 import BookingPage from "./Pages/BookingPage";
 import BookingConfirm from "./Pages/BookingConfirm";
 import Messages from "./Pages/Messages";
+import Notifications from "./Pages/Notifications";
 import "./styles.scss";
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/booking-confirm" element={<BookingConfirm />} />
                 <Route path="/booking-summary" element={<BookingSummary />} />
                 <Route path="/messages" element={<Messages />} />
+                <Route path="/notifications" element={<Notifications />} />
             </Routes>
             <div className="navbar">
                 <CustomLink to="/messages">
