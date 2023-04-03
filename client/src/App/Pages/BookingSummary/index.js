@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Button } from "antd";
-
 import "./styles.sass";
 
 const BookingSummary = () => {
