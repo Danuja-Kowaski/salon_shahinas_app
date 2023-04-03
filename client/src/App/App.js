@@ -20,6 +20,7 @@ import BookingPage from "./Pages/BookingPage";
 import BookingConfirm from "./Pages/BookingConfirm";
 import Messages from "./Pages/Messages";
 import Notifications from "./Pages/Notifications";
+import Profile from "./Pages/Profile";
 import "./styles.scss";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/booking-summary" element={<BookingSummary />} />
                 <Route path="/messages" element={<Messages />} />
                 <Route path="/notifications" element={<Notifications />} />
+                <Route path="/profile" element={<Profile />} />
             </Routes>
             <div className="navbar">
                 <CustomLink to="/messages">
@@ -55,7 +57,7 @@ function App() {
                 <CustomLink to="/booking">
                     <ScheduleOutlined />
                 </CustomLink>
-                <CustomLink to="/account">
+                <CustomLink to="/profile">
                     <UserOutlined />
                 </CustomLink>
             </div>
@@ -64,9 +66,7 @@ function App() {
 }
 
 const CustomLink = ({ to, children }) => {
-    let path = window.location.pathname;
-
-    console.log(path);
+    // let path = window.location.pathname;
 
     return (
         <Link to={to}>
