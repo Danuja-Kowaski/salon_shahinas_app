@@ -35,11 +35,12 @@ const Messages = () => {
 
     const renderMessages = () => {
         if (showMsg) {
-            return msgArr.map((item) => (
+            return msgArr.map((item, index) => (
                 <div
                     className={`message-item ${
                         item.received ? "left" : "right"
                     }`}
+                    key={index}
                 >
                     <p>{item.text}</p>
                 </div>
