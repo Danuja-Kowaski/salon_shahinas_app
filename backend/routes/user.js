@@ -1,36 +1,48 @@
 const router = require('express').Router();
 //import model
-const userModel = require('../model/user.model');
+const User = require('../model/user.model');
 
-//adding recipe to db
+//register user to db
 router.post('/api/register', async (req, res) => {
     try{
-        const userExists = await User.findOne({ username });
-        if (userExists) {
-        return res.status(409).json({ message: 'Username already taken' });
-        }
-        else{
-            const newUser = new userModel({
-                username : req.body.username,
-                password : req.body.password,
-                email: req.body.email
-            })
-            const saveItem = await newUser.save()
-            res.status(200).json('User Added successfully')
-        }
+        const body = req.body;
+        const savedUser = await new User({ ...body }).save();
+        res.status(200).json('User Added successfully')
     }catch(err){
+        if (err.code === 11000) {
+            res.status(409).json({ message: 'Username already exists' });
+          } else {
+            // For any other error, return the error message
+            res.status(500).json({ error: error.message });
+          }
+    }
+})
+
+//login user
+router.post('/api/login', async (req, res) => {
+    try{
+        const body = req.body;
+        const user = await User.findOne({ username : body.username })
+        if (user){
+            if (user.password === body.password){
+                return res.status(200).json('User logged in successfully');
+            }
+            return res.status(401).json({ message: 'Invalid username or password' });  
+        }
+        return res.status(401).json({ message: 'Invalid username or password' });
+        }catch(err){
         res.json(err);
     }
 })
 
 //get all users
-router.get('/api/users', async (req, res) =>{
-    try{
-        const allUsers = await userModel.find({});
-        res.status(200).json(allUsers)
-    }catch(err){
-        res.json(err);
-    }
-})
+// router.get('/api/users', async (req, res) =>{
+//     try{
+//         const allUsers = await userModel.find({});
+//         res.status(200).json(allUsers)
+//     }catch(err){
+//         res.json(err);
+//     }
+// })
 
 module.exports = router;
