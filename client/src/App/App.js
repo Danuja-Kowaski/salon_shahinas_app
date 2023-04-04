@@ -20,6 +20,7 @@ import BookingPage from "./Pages/BookingPage";
 import BookingConfirm from "./Pages/BookingConfirm";
 import Messages from "./Pages/Messages";
 import Notifications from "./Pages/Notifications";
+import Appointments from "./Pages/Appointments";
 import Profile from "./Pages/Profile";
 import "./styles.scss";
 
@@ -43,6 +44,7 @@ function App() {
                 <Route path="/messages" element={<Messages />} />
                 <Route path="/notifications" element={<Notifications />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/appointments" element={<Appointments />} />
             </Routes>
             <div className="navbar">
                 <CustomLink to="/messages">
@@ -54,7 +56,7 @@ function App() {
                 <CustomLink to="/home">
                     <HomeOutlined />
                 </CustomLink>
-                <CustomLink to="/booking">
+                <CustomLink to="/appointments">
                     <ScheduleOutlined />
                 </CustomLink>
                 <CustomLink to="/profile">

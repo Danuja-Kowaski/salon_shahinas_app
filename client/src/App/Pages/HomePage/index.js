@@ -5,7 +5,6 @@ import { Calendar, Button } from "antd";
 import "./styles.sass";
 
 const HomePage = () => {
-
     const onPanelChange = (value, mode) => {
         console.log(value.format("YYYY-MM-DD"), mode);
     };
@@ -13,7 +12,7 @@ const HomePage = () => {
     return (
         <div div className="home-section">
             <div className="page-header-intro">
-                <h1>Hello, [USERNAME]</h1>
+                <h1>Hello, Jane</h1>
                 <h6>Welcome to Salon Shahina's</h6>
             </div>
             <div className="page-banner">
