@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
         required : true,
         unique : true,
         trim: true,
-        //minlength : 3
     },
     password : {
         type: String,
@@ -19,7 +18,10 @@ const userSchema = new mongoose.Schema({
     appointments : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: Appointment
-    }]
+    }],
+    user_type : {
+        type: String
+    }
 })
 
 const User = mongoose.model('User', userSchema);

@@ -14,7 +14,8 @@ router.post('/api/appointment/:id', async (req, res) => {
         const newAppointment = new Appointment({
         bookingDate: req.body.bookingDate,
         stylists: req.body.stylists,
-        services: req.body.services
+        services: req.body.services,
+        review: req.body.review
         });
         user.appointments.push(newAppointment);
         const userdata = await user.save();
@@ -29,17 +30,29 @@ router.post('/api/appointment/:id', async (req, res) => {
 
 //Get all appointments
 router.get('/api/appointments', async (req, res) => {
-    try{
         try{
             const allAppointments = await Appointment.find({});
             console.log(allAppointments)
             res.status(200).json(allAppointments)
         }catch(err){
             res.json(err);
-        }
-    }catch(err){
+        }   
+})
 
+//Delete an appointment from an id
+router.delete('/api/apointments/:userId/del/:id', async (req, res) => {
+    try{
+        const body = req.body
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'Appointment deleted successfully' });
+    } catch (err) {
+        console.log(err)
     }
+
 })
 
 

@@ -13,7 +13,7 @@ router.post('/api/register', async (req, res) => {
             res.status(409).json({ message: 'Username already exists' });
           } else {
             // For any other error, return the error message
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: err.message });
           }
     }
 })

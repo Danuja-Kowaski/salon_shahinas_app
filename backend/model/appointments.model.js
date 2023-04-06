@@ -13,6 +13,9 @@ const appointmentSchema = new Schema({
   services: {
     type: String,
     required: true
+  },
+  review:{
+    type: String
   }
 });
 
