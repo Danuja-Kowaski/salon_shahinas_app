@@ -10,6 +10,7 @@ const uri = process.env.URI;
 
 //Route
 const userRoute = require('./routes/user')
+const appointmentRoute = require('./routes/appointment')
 app.use(cors());
 app.use(express.json());
 
@@ -21,6 +22,7 @@ mongoose.connect(uri)
 
 
 app.use('/', userRoute);
+app.use('/',appointmentRoute)
 
 app.listen(port, () => {
     console.log(`Running on port : ${port}`);

@@ -1,13 +1,13 @@
 const router = require('express').Router();
-
+const User = require('../model/user.model');
 const Appointment = require('../model/appointments.model')
 
 // Create appointment for a user
-router.post('/api/:userId/appointment', async (req, res) => {
+router.post('/api/appointment/:id', async (req, res) => {
     try{
-        const userID = req.params.userId;
-        console.log(userID)
-        const user = await User.findById(userID);
+        const body = req.body
+        console.log(req.params.id)
+        const user = await User.findById(req.params.id);
         if (!user) {
         return res.status(404).json({ message: 'User not found' });
         }
@@ -17,12 +17,30 @@ router.post('/api/:userId/appointment', async (req, res) => {
         services: req.body.services
         });
         user.appointments.push(newAppointment);
-        await user.save();
+        const userdata = await user.save();
+        const appointment = await new Appointment({ ...body }).save();
         res.status(200).json({ message: 'Appointment added successfully' });
     } catch (err) {
-        res.json(err);
+        console.log(err)
     }
 });
+
+
+
+//Get all appointments
+router.get('/api/appointments', async (req, res) => {
+    try{
+        try{
+            const allAppointments = await Appointment.find({});
+            console.log(allAppointments)
+            res.status(200).json(allAppointments)
+        }catch(err){
+            res.json(err);
+        }
+    }catch(err){
+
+    }
+})
 
 
 module.exports = router;

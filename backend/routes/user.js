@@ -36,13 +36,25 @@ router.post('/api/login', async (req, res) => {
 })
 
 //get all users
-// router.get('/api/users', async (req, res) =>{
-//     try{
-//         const allUsers = await userModel.find({});
-//         res.status(200).json(allUsers)
-//     }catch(err){
-//         res.json(err);
-//     }
-// })
+router.get('/api/users', async (req, res) =>{
+    try{
+        const allUsers = await User.find({});
+        console.log(allUsers)
+        res.status(200).json(allUsers)
+    }catch(err){
+        res.json(err);
+    }
+})
+
+//Get details by userID
+router.get('/api/users/:id', async (req, res) =>{
+    try{
+        const test = await User.findById(req.params.id);
+        console.log(test)
+        res.status(200).json(test)
+    }catch(err){
+        res.json(err);
+    }
+})
 
 module.exports = router;
