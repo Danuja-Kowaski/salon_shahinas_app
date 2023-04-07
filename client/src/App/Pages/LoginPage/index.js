@@ -1,17 +1,30 @@
 import React from "react";
 
 import { Button, Form, Input } from "antd";
+import axios from "axios";
 
 import "./styles.sass";
 
 const LoginPage = () => {
-    const onFinish = (values) => {
-        console.log("Success:", values);
+
+    // Login
+    const onFinish = async (values) => {
+        try {
+            const res = await axios.post('http://localhost:5500/api/login', {
+                username: values.username, 
+                password: values.password
+            })
+            console.log(res.data)
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);
     };
+
+    
 
     return (
         <div className="login-section">
@@ -69,9 +82,11 @@ const LoginPage = () => {
             </div>
             <div className="register-text">
                 <p>Don't have an account?</p>
-                <Button size={"large"} type="primary">
-                    Register
-                </Button>
+                <a href="/register">
+                    <Button size={"large"} type="primary">
+                        Register
+                    </Button>
+                </a>
             </div>
         </div>
     );

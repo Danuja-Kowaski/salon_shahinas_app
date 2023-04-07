@@ -51,9 +51,11 @@ const HomePage = () => {
                     />
                 </div>
                 <div className="appointment-button-row">
-                    <Button size={"large"} type="primary">
-                        Place Booking
-                    </Button>
+                    <a href="/booking">
+                        <Button size={"large"} type="primary">
+                            Place Booking
+                        </Button>
+                    </a>
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@ import "./styles.sass";
 const Messages = () => {
     const { Search } = Input;
     const [showMsg, setShowMsg] = useState(false);
+    const [messageInput, setMessageInput] = useState("");
 
     const [msgArr, setMsgArr] = useState([
         {
@@ -31,6 +32,7 @@ const Messages = () => {
             received: false,
         };
         setMsgArr([...msgArr, message]);
+        setMessageInput("");
     };
 
     const renderMessages = () => {
@@ -49,6 +51,10 @@ const Messages = () => {
         return <Skeleton />;
     };
 
+    const setInput = (e) => {
+        setMessageInput(e.target.value);
+    };
+
     return (
         <div className="messages-section">
             <h4>Message Us</h4>
@@ -61,6 +67,8 @@ const Messages = () => {
                     enterButton="Send"
                     size="large"
                     onSearch={onSearch}
+                    onChange={setInput}
+                    value={messageInput}
                 />
             </div>
         </div>

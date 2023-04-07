@@ -1,12 +1,23 @@
 import React from "react";
 
 import { Button, Form, Input } from "antd";
+import axios from "axios";
 
 import "./styles.sass";
 
 const RegisterPage = () => {
-    const onFinish = (values) => {
-        console.log("Success:", values);
+    // Register
+    const onFinish = async (values) => {
+        try {
+            const res = await axios.post('http://localhost:5500/api/register', {
+                username: values.username,
+                email: values.email,
+                password: values.password
+            })
+            console.log(res.data)
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -78,9 +89,11 @@ const RegisterPage = () => {
             </div>
             <div className="register-text">
                 <p>If you already have an account</p>
-                <Button type="primary" size={"large"}>
-                    Login
-                </Button>
+                <a href="/login">
+                    <Button type="primary" size={"large"}>
+                        Login
+                    </Button>
+                </a>
             </div>
         </div>
     );
