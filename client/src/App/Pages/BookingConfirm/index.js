@@ -63,9 +63,11 @@ const BookingConfirm = () => {
                 </div>
             </div>
             <div className="btn-row">
-                <Button size={"large"} type="primary">
-                    Confirm Booking
-                </Button>
+                <a href="/booking-summary">
+                    <Button size={"large"} type="primary">
+                        Confirm Booking
+                    </Button>
+                </a>
             </div>
         </div>
     );

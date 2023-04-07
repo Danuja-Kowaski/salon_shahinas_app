@@ -22,6 +22,9 @@ import Messages from "./Pages/Messages";
 import Notifications from "./Pages/Notifications";
 import Appointments from "./Pages/Appointments";
 import Profile from "./Pages/Profile";
+
+import AdminHome from "./Pages/AdminHome";
+
 import "./styles.scss";
 
 function App() {
@@ -34,6 +37,7 @@ function App() {
             }}
         >
             <Routes>
+                {/* Normal User Routes */}
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
@@ -45,6 +49,8 @@ function App() {
                 <Route path="/notifications" element={<Notifications />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/appointments" element={<Appointments />} />
+                {/* Admin/Employee User Routes */}
+                <Route path="/admin-home" element={<AdminHome />} />
             </Routes>
             <div className="navbar">
                 <CustomLink to="/messages">

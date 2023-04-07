@@ -102,9 +102,11 @@ const BookingPage = () => {
                 </Space>
             </div>
             <div className="booking-btn-row">
-                <Button size={"large"} type="primary">
-                    Continue
-                </Button>
+                <a href="/booking-confirm">
+                    <Button size={"large"} type="primary">
+                        Continue
+                    </Button>
+                </a>
             </div>
         </div>
     );
