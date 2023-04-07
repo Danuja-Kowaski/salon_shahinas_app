@@ -14,7 +14,8 @@ router.post('/api/appointment/:id', async (req, res) => {
         const newAppointment = new Appointment({
         bookingDate: req.body.bookingDate,
         stylists: req.body.stylists,
-        services: req.body.services
+        services: req.body.services,
+        review: req.body.review
         });
         user.appointments.push(newAppointment);
         const userdata = await user.save();
