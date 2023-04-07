@@ -9,13 +9,12 @@ router.post('/api/appointment/:id', async (req, res) => {
         console.log(req.params.id)
         const user = await User.findById(req.params.id);
         if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: 'User not found' });
         }
         const newAppointment = new Appointment({
         bookingDate: req.body.bookingDate,
         stylists: req.body.stylists,
-        services: req.body.services,
-        review: req.body.review
+        services: req.body.services
         });
         user.appointments.push(newAppointment);
         const userdata = await user.save();
