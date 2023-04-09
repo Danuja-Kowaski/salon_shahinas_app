@@ -24,6 +24,9 @@ import Appointments from "./Pages/Appointments";
 import Profile from "./Pages/Profile";
 
 import AdminHome from "./Pages/AdminHome";
+import AdminSchedule from "./Pages/AdminSchedule";
+import ClientRecords from "./Pages/ClientRecords";
+import EmployeeSchedules from "./Pages/EmployeeSchedules";
 
 import "./styles.scss";
 
@@ -51,6 +54,15 @@ function App() {
                 <Route path="/appointments" element={<Appointments />} />
                 {/* Admin/Employee User Routes */}
                 <Route path="/admin-home" element={<AdminHome />} />
+                <Route path="/admin-schedule" element={<AdminSchedule />} />
+                <Route
+                    path="/admin-client-records"
+                    element={<ClientRecords />}
+                />
+                <Route
+                    path="/admin-employee-schedules"
+                    element={<EmployeeSchedules />}
+                />
             </Routes>
             <div className="navbar">
                 <CustomLink to="/messages">
