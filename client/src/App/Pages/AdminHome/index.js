@@ -22,7 +22,7 @@ const AdminHome = () => {
                     <p>Total Earnings for this week</p>
                 </div>
             </div>
-            <a href="/">
+            <a href="/admin-client-records">
                 <div className="admin-item">
                     <div className="img-item"></div>
                     <div className="info-item">
@@ -30,7 +30,7 @@ const AdminHome = () => {
                     </div>
                 </div>
             </a>
-            <a href="/">
+            <a href="/admin-employee-schedules">
                 <div className="admin-item">
                     <div className="img-item"></div>
                     <div className="info-item">
@@ -38,7 +38,7 @@ const AdminHome = () => {
                     </div>
                 </div>
             </a>
-            <a href="/">
+            <a href="/admin-schedule">
                 <div className="admin-item">
                     <div className="img-item"></div>
                     <div className="info-item">

@@ -5,10 +5,19 @@ import {
     UserOutlined,
     CreditCardOutlined,
 } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { Button } from "antd";
 
 import "./styles.sass";
 
 const Profile = () => {
+    const navigate = useNavigate();
+
+    const logout = () => {
+        //Logout
+        navigate("/login");
+    };
+
     return (
         <div className="profile-section">
             <h4>My Profile</h4>
@@ -38,6 +47,11 @@ const Profile = () => {
                     <SettingOutlined style={{ fontSize: "2em" }} />
                 </div>
                 <h5>Settings</h5>
+            </div>
+            <div className="logout-row">
+                <Button type="primary" size={"large"} onClick={logout}>
+                    Logout
+                </Button>
             </div>
         </div>
     );
