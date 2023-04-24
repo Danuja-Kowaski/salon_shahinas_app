@@ -46,7 +46,7 @@ const AdminHome = () => {
                     </div>
                 </div>
             </a>
-            <a href="/">
+            <a href="/admin-client-reviews">
                 <div className="admin-item">
                     <div className="img-item"></div>
                     <div className="info-item">

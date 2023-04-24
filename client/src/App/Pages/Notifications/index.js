@@ -13,7 +13,7 @@ const Notifications = () => {
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                         sed do eiusmod tempor incididunt ut labore et dolore ma
-                        <span> (Read More)</span>
+                        {/* <span> (Read More)</span> */}
                     </p>
                 </div>
             </div>
@@ -24,7 +24,7 @@ const Notifications = () => {
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                         sed do eiusmod tempor incididunt ut labore et dolore ma
-                        <span> (Read More)</span>
+                        {/* <span> (Read More)</span> */}
                     </p>
                 </div>
             </div>
@@ -35,7 +35,7 @@ const Notifications = () => {
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                         sed do eiusmod tempor incididunt ut labore et dolore ma
-                        <span> (Read More)</span>
+                        {/* <span> (Read More)</span> */}
                     </p>
                 </div>
             </div>
@@ -46,7 +46,7 @@ const Notifications = () => {
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                         sed do eiusmod tempor incididunt ut labore et dolore ma
-                        <span> (Read More)</span>
+                        {/* <span> (Read More)</span> */}
                     </p>
                 </div>
             </div>

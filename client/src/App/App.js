@@ -27,6 +27,7 @@ import AdminHome from "./Pages/AdminHome";
 import AdminSchedule from "./Pages/AdminSchedule";
 import ClientRecords from "./Pages/ClientRecords";
 import EmployeeSchedules from "./Pages/EmployeeSchedules";
+import ClientReviews from "./Pages/ClientReviews";
 
 import "./styles.scss";
 
@@ -62,6 +63,10 @@ function App() {
                 <Route
                     path="/admin-employee-schedules"
                     element={<EmployeeSchedules />}
+                />
+                <Route
+                    path="/admin-client-reviews"
+                    element={<ClientReviews />}
                 />
             </Routes>
             <div className="navbar">
