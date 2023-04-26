@@ -11,14 +11,10 @@ router.post('/api/appointment/:id', async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        const newReview = await new Review({
-            comment : req.body.comment
-        }).save();
         const newAppointment = await new Appointment({
         bookingDate: req.body.bookingDate,
         stylists: req.body.stylists,
         services: req.body.services,
-        comment : newReview
         }).save()
         user.appointments.push(newAppointment);
         const userdata = await user.save();
@@ -41,19 +37,39 @@ router.get('/api/appointments', async (req, res) => {
 })
 
 //Delete an appointment from an id
-router.delete('/api/apointments/:userId/del/:id', async (req, res) => {
+router.delete('/api/appointments/:userId/del/:id', async (req, res) => {
     try{
         const body = req.body
         const user = await User.findById(req.params.userId);
+        const appointment = await Appointment.find(req.params.id)
+        console.log(user) 
+        console.log(appointment) 
         if (!user) {
         return res.status(404).json({ message: 'User not found' });
         }
-
-        res.status(200).json({ message: 'Appointment deleted successfully' });
+        res.status(200).json({ message: 'user deleted successfully' });
     } catch (err) {
         console.log(err)
     }
+})
 
+//Write a review for an appointment
+router.post('/api/review/:id', async (req, res) => {
+    try{
+        const body = req.body
+        console.log(req.params.id)
+        const appointment = await Appointment.findById(req.params.id);
+        console.log(appointment)
+        if (appointment) {
+            const reviewData = await new Review({ ...body }).save()
+            appointment.comment.push(reviewData)
+            const data = await appointment.save()
+            return res.status(200).json({ message: 'Review added successfully' });
+        }
+        return res.status(404).json({ message: 'User not found' });
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 //Get all reviews for admin

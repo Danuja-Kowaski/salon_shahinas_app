@@ -1,7 +1,6 @@
 //Modal for user
 const mongoose = require('mongoose');
 const Appointment = require('./appointments.model')
-const Review = require('./review.model')
 const userSchema = new mongoose.Schema({
     username : {
         type: String,
@@ -22,7 +21,7 @@ const userSchema = new mongoose.Schema({
     }],
     user_type : {
         type: String
-    }
+    },
 })
 
 const User = mongoose.model('User', userSchema);
