@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Review = require('./review.model')
 
-const appointmentSchema = new Schema({
+const appointmentSchema = new mongoose.Schema({
   bookingDate: {
     type: String,
     required: true
@@ -14,11 +14,11 @@ const appointmentSchema = new Schema({
     type: String,
     required: true
   },
-  review:{
-    type: String
-  }
+  comment : [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Review'
+  }]
 });
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);
-
 module.exports = Appointment; 

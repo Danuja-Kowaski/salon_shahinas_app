@@ -1,25 +1,27 @@
 const router = require('express').Router();
 const User = require('../model/user.model');
 const Appointment = require('../model/appointments.model')
+const Review = require('../model/review.model')
 
 // Create appointment for a user
 router.post('/api/appointment/:id', async (req, res) => {
     try{
         const body = req.body
-        console.log(req.params.id)
         const user = await User.findById(req.params.id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        const newAppointment = new Appointment({
+        const newReview = await new Review({
+            comment : req.body.comment
+        }).save();
+        const newAppointment = await new Appointment({
         bookingDate: req.body.bookingDate,
         stylists: req.body.stylists,
         services: req.body.services,
-        review: req.body.review
-        });
+        comment : newReview
+        }).save()
         user.appointments.push(newAppointment);
         const userdata = await user.save();
-        const appointment = await new Appointment({ ...body }).save();
         res.status(200).json({ message: 'Appointment added successfully' });
     } catch (err) {
         console.log(err)
@@ -32,7 +34,6 @@ router.post('/api/appointment/:id', async (req, res) => {
 router.get('/api/appointments', async (req, res) => {
         try{
             const allAppointments = await Appointment.find({});
-            console.log(allAppointments)
             res.status(200).json(allAppointments)
         }catch(err){
             res.json(err);
@@ -55,5 +56,14 @@ router.delete('/api/apointments/:userId/del/:id', async (req, res) => {
 
 })
 
+//Get all reviews for admin
+router.get('/api/reviews', async (req, res) => {
+    try{
+        const reviewData = await Review.find({});
+        res.status(200).json(reviewData)
+    }catch(err){
+        console.log(err)
+    }
+})
 
 module.exports = router;

@@ -1,6 +1,7 @@
 //Modal for user
 const mongoose = require('mongoose');
-const Appointment = require('../model/appointments.model')
+const Appointment = require('./appointments.model')
+const Review = require('./review.model')
 const userSchema = new mongoose.Schema({
     username : {
         type: String,
@@ -17,7 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     appointments : [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: Appointment
+        ref: 'Appointment'
     }],
     user_type : {
         type: String
