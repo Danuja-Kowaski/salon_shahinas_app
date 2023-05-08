@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useEffect } from "react";
 
 import {
     SettingOutlined,
@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
+import { getLoggedInUser } from "../../utils";
 
 import "./styles.sass";
 
@@ -15,8 +16,13 @@ const Profile = () => {
 
     const logout = () => {
         //Logout
+        localStorage.removeItem("user");
         navigate("/login");
     };
+
+    useEffect(() => {
+        console.log("current user", getLoggedInUser());
+    }, []);
 
     return (
         <div className="profile-section">

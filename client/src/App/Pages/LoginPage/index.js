@@ -1,31 +1,42 @@
-import React from "react";
-
+import { React, useEffect } from "react";
 
 import { Button, Form, Input } from "antd";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
+import { getLoggedInUser } from "../../utils";
 import "./styles.sass";
 
 const LoginPage = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log("current user", getLoggedInUser());
+    }, []);
+
+    const setUser = (userInfo) => {
+        // Save user data in local storage
+        localStorage.setItem("user", JSON.stringify(userInfo));
+    };
 
     // Login
     const onFinish = async (values) => {
         try {
-            const res = await axios.post('http://localhost:5500/api/login', {
-                username: values.username, 
-                password: values.password
-            })
-            console.log(res.data)
+            const res = await axios.post("http://localhost:5500/api/login", {
+                username: values.username,
+                password: values.password,
+            });
+            console.log(res.data);
+            setUser(res.data.user);
+            navigate("/home");
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);
     };
-
-    
 
     return (
         <div className="login-section">

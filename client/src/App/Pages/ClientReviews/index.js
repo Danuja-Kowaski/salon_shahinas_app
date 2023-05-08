@@ -1,8 +1,25 @@
-import { React } from "react";
+import { React, useEffect } from "react";
+import axios from "axios";
 
 import "./styles.sass";
 
 const ClientReviews = () => {
+    // Get reviews
+    useEffect(() => {
+        const getReviews = async () => {
+            try {
+                const res = await axios.get(
+                    "http://localhost:5500/api/reviews",
+                    {}
+                );
+                console.log(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getReviews();
+    }, []);
+
     return (
         <div className="review-section">
             <h2>Client Reviews</h2>

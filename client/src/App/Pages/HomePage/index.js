@@ -1,12 +1,17 @@
-import React from "react";
+import { React, useState } from "react";
 
 import { Calendar, Button } from "antd";
+import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 import "./styles.sass";
 
 const HomePage = () => {
-    const onPanelChange = (value, mode) => {
-        console.log(value.format("YYYY-MM-DD"), mode);
+    const navigate = useNavigate();
+    const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
+
+    const redirectToBookingPage = () => {
+        navigate("/booking", { state: { date } });
     };
 
     return (
@@ -47,15 +52,20 @@ const HomePage = () => {
                 <div className="appointment-calender">
                     <Calendar
                         fullscreen={false}
-                        onPanelChange={onPanelChange}
+                        onChange={(value) => {
+                            setDate(value.format("YYYY-MM-DD"));
+                        }}
+                        defaultValue={dayjs()}
                     />
                 </div>
                 <div className="appointment-button-row">
-                    <a href="/booking">
-                        <Button size={"large"} type="primary">
-                            Place Booking
-                        </Button>
-                    </a>
+                    <Button
+                        size={"large"}
+                        type="primary"
+                        onClick={redirectToBookingPage}
+                    >
+                        Place Booking
+                    </Button>
                 </div>
             </div>
         </div>
