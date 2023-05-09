@@ -11,6 +11,7 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes } from "react-router";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import BookingSummary from "./Pages/BookingSummary";
 import LoginPage from "./Pages/LoginPage";
@@ -30,9 +31,12 @@ import EmployeeSchedules from "./Pages/EmployeeSchedules";
 import ClientReviews from "./Pages/ClientReviews";
 import ClientDetails from "./Pages/ClientDetails";
 
+import Protected from "./Pages/common/Protected";
 import "./styles.scss";
 
 function App() {
+    const location = useLocation();
+
     return (
         <ConfigProvider
             theme={{
@@ -43,65 +47,166 @@ function App() {
         >
             <Routes>
                 {/* Normal User Routes */}
-                <Route path="/home" element={<HomePage />} />
+                <Route
+                    path="/home"
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <HomePage />
+                        </Protected>
+                    }
+                />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-                <Route path="/" element={<HomePage />} />
-                <Route path="/booking" element={<BookingPage />} />
-                <Route path="/booking-confirm" element={<BookingConfirm />} />
-                <Route path="/booking-summary" element={<BookingSummary />} />
-                <Route path="/messages" element={<Messages />} />
-                <Route path="/notifications" element={<Notifications />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/appointments" element={<Appointments />} />
+                <Route
+                    path="/"
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <HomePage />
+                        </Protected>
+                    }
+                />
+                <Route
+                    path="/booking"
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <BookingPage />
+                        </Protected>
+                    }
+                />
+                <Route
+                    path="/booking-confirm"
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <BookingConfirm />
+                        </Protected>
+                    }
+                />
+                <Route
+                    path="/booking-summary"
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <BookingSummary />
+                        </Protected>
+                    }
+                />
+                <Route
+                    path="/messages"
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <Messages />
+                        </Protected>
+                    }
+                />
+                <Route
+                    path="/notifications"
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <Notifications />
+                        </Protected>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <Profile />
+                        </Protected>
+                    }
+                />
+                <Route
+                    path="/appointments"
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <Appointments />
+                        </Protected>
+                    }
+                />
                 {/* Admin/Employee User Routes */}
-                <Route path="/admin-home" element={<AdminHome />} />
-                <Route path="/admin-schedule" element={<AdminSchedule />} />
+                <Route
+                    path="/admin-home"
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <AdminHome />
+                        </Protected>
+                    }
+                />
+                <Route
+                    path="/admin-schedule"
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <AdminSchedule />
+                        </Protected>
+                    }
+                />
                 <Route
                     path="/admin-client-records"
-                    element={<ClientRecords />}
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <ClientRecords />
+                        </Protected>
+                    }
                 />
                 <Route
                     path="/admin-employee-schedules"
-                    element={<EmployeeSchedules />}
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <EmployeeSchedules />
+                        </Protected>
+                    }
                 />
                 <Route
                     path="/admin-client-reviews"
-                    element={<ClientReviews />}
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <ClientReviews />
+                        </Protected>
+                    }
                 />
                 <Route
                     path="/admin-client-details"
-                    element={<ClientDetails />}
+                    element={
+                        <Protected isLoggedIn={true}>
+                            <ClientDetails />
+                        </Protected>
+                    }
                 />
             </Routes>
-            <div className="navbar">
-                <CustomLink to="/messages">
-                    <MailOutlined />
-                </CustomLink>
-                <CustomLink to="/notifications">
-                    <BellOutlined />
-                </CustomLink>
-                <CustomLink to="/home">
-                    <HomeOutlined />
-                </CustomLink>
-                <CustomLink to="/appointments">
-                    <ScheduleOutlined />
-                </CustomLink>
-                <CustomLink to="/profile">
-                    <UserOutlined />
-                </CustomLink>
-            </div>
+            {
+                // Dont show navbar if not logged in
+                location.pathname !== "/login" &&
+                location.pathname !== "/register" ? (
+                    <div className="navbar">
+                        <CustomLink to="/messages" path={location.pathname}>
+                            <MailOutlined />
+                        </CustomLink>
+                        <CustomLink
+                            to="/notifications"
+                            path={location.pathname}
+                        >
+                            <BellOutlined />
+                        </CustomLink>
+                        <CustomLink to="/home" path={location.pathname}>
+                            <HomeOutlined />
+                        </CustomLink>
+                        <CustomLink to="/appointments" path={location.pathname}>
+                            <ScheduleOutlined />
+                        </CustomLink>
+                        <CustomLink to="/profile" path={location.pathname}>
+                            <UserOutlined />
+                        </CustomLink>
+                    </div>
+                ) : null
+            }
         </ConfigProvider>
     );
 }
 
-const CustomLink = ({ to, children }) => {
-    // let path = window.location.pathname;
-
+const CustomLink = ({ to, children, path }) => {
     return (
         <Link to={to}>
-            {/* <div className={path === to ? "nav-item active" : "nav-item"}> */}
-            <div className="nav-item">{children}</div>
+            <div className={path === to ? "nav-item active" : "nav-item"}>
+                {children}
+            </div>
         </Link>
     );
 };

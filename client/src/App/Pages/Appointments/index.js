@@ -1,10 +1,16 @@
-import { React } from "react";
-
+import { React, useEffect } from "react";
+import axios from "axios";
 import { Tabs } from "antd";
+
+import { getLoggedInUser } from "../../utils";
 
 import "./styles.sass";
 
 const Appointments = () => {
+    const user = getLoggedInUser();
+
+    console.log("user", user);
+
     const renderBooked = () => {
         return (
             <div>
@@ -85,6 +91,22 @@ const Appointments = () => {
             children: renderCanceled(),
         },
     ];
+
+    // Get reviews
+    useEffect(() => {
+        const getAppointments = async () => {
+            try {
+                const res = await axios.get(
+                    `http://localhost:5500/api/users/${user._id}`,
+                    {}
+                );
+                console.log("user appointments", res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getAppointments();
+    }, [user]);
 
     return (
         <div className="appointments-section">

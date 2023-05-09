@@ -3,6 +3,10 @@ import React from "react";
 import "./styles.sass";
 
 const BookingSummary = () => {
+    // const { state } = useLocation();
+    // const { data } = state;
+
+    // console.log("data", data);
     return (
         <div div className="booking-summary-section">
             <div className="booking-confirmed-wrapper">
