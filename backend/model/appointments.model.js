@@ -1,31 +1,29 @@
 const mongoose = require('mongoose');
+const User = require('./user.model')
 const Review = require('./review.model')
-
+const Employee = require('./employee.model')
 const appointmentSchema = new mongoose.Schema({
-  bookingTime: { 
-    type: String, 
-    required: true 
+  user_id:{
+    type: mongoose.Schema.Types.ObjectId, ref: 'User'
+  },
+  emp_id:{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Employee'
   },
   bookingDate: {
     type: Date,
     required: true
   },
-  name:{
-    type: String,
-    required : false
-  },
-  stylists: {
-    type: String,
-    required: true
-  },
-  services: {
-    type: String,
-    required: true
-  },
-  comment : [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Review'
-  }]
+  services: [{
+    label: {
+        type: String,
+    },
+    value: {
+        type: String,
+    },
+    price: {
+        type: String,
+    },
+}],
 });
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);

@@ -1,6 +1,23 @@
 const router = require('express').Router();
+const Employee = require('../model/employee.model');
 //import model
 const User = require('../model/user.model');
+
+//register user to db
+router.post('/api/register/emp', async (req, res) => {
+    try{
+        const body = req.body;
+        const savedUser = await new Employee({ ...body }).save();
+        res.status(200).json({user : savedUser})
+    }catch(err){
+        if (err.code === 11000) {
+            res.status(409).json({ message: 'Username already exists' });
+          } else {
+            // For any other error, return the error message
+            res.status(500).json({ error: err.message });
+          }
+    }
+})
 
 //register user to db
 router.post('/api/register', async (req, res) => {
@@ -35,7 +52,7 @@ router.post('/api/login', async (req, res) => {
     }
 })
 
-//get all users
+//get all users for admin
 router.get('/api/users', async (req, res) =>{
     try{
         const allUsers = await User.find({});
@@ -45,33 +62,26 @@ router.get('/api/users', async (req, res) =>{
     }
 })
 
+//get all clients for admin
+router.get('/api/clients', async (req, res) => {
+    try {
+      const allUsers = await User.find({ user_type: "CLIENT" });
+      res.status(200).json(allUsers);
+    } catch (err) {
+      res.json(err);
+    }
+  });
 
-//Get details by user_type (for employee and to show in admin)
-router.get('/api/users/:id', async (req, res) =>{
+//get all employees for admin
+router.get('/api/emps', async (req, res) =>{
     try{
-        const test = await User.findById(req.params.id);
-        console.log(test)
-        res.status(200).json(test)
+        const allEmp = await Employee.find({});
+        res.status(200).json(allEmp)
     }catch(err){
         res.json(err);
     }
 })
 
-// Get booking details based on userid
-router.get('/api/users/:id', async (req, res) =>{
-    try{
-        const user = await User.findById(req.params.id);
-        if (!user){
-            return res.status(401).json({ message: 'User not found' });   
-        }
-        if (user.user_type === "Employee"){
-
-        }
-        res.status(200).json(test)
-    }catch(err){
-        res.json(err);
-    }
-})
 
 
 module.exports = router;
