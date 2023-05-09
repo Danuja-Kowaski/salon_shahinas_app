@@ -1,29 +1,31 @@
-import React from "react";
-
+import { React } from "react";
 import { Button } from "antd";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
+import { getLoggedInUser } from "../../utils";
 import { serviceOptions } from "../constants";
 
 import "./styles.sass";
 
 const BookingConfirm = () => {
+    const navigate = useNavigate();
+    const user = getLoggedInUser();
     const { state } = useLocation();
     const data = state?.data;
     const date = dayjs(data?.date);
     let total = 0;
+    let services = [];
 
     console.log("data", data);
 
     const renderServiceItems = () => {
-        data.services.forEach((service) => {
-            console.log("service", service, findServiceItem(service));
-        });
-
         return data.services.map((service) => {
             const item = findServiceItem(service);
             total += parseInt(item.price);
+            services.push(item);
             return (
                 <div className="item-info">
                     <p>{item.label.replace(/ *\([^)]*\) */g, "")}</p>
@@ -35,10 +37,15 @@ const BookingConfirm = () => {
 
     const findServiceItem = (value) => {
         let serviceItem;
+        console.log("serviceOptions", serviceOptions);
         serviceOptions.forEach((type) => {
-            value = type.options.find((option) => option.value === value);
-            if (value) {
-                serviceItem = value;
+            const item = type.options.find((option) => {
+                console.log("optionval", option.value);
+                console.log("val", value);
+                return option.value === value;
+            });
+            if (item) {
+                serviceItem = item;
             }
         });
         return serviceItem;
@@ -46,12 +53,32 @@ const BookingConfirm = () => {
 
     const renderSelectedServices = () => {
         let services = "";
+        console.log("services", data.services);
         data.services.forEach((service) => {
             services +=
                 findServiceItem(service).label.replace(/ *\([^)]*\) */g, "") +
                 ", ";
         });
         return services;
+    };
+
+    const submitBooking = async () => {
+        try {
+            const info = {
+                id: user._id,
+                empid: data.stylists,
+                bookingDate: data.date,
+                services: services,
+            };
+            const res = await axios.post(
+                `http://localhost:5500/api/appointment/${user._id}/${data.stylists}`,
+                info
+            );
+            console.log("user appointments", res.data);
+            navigate("/booking-summary", { state: { info } });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const renderBookingSection = () => {
@@ -103,11 +130,13 @@ const BookingConfirm = () => {
                     </div>
                 </div>
                 <div className="btn-row">
-                    <a href="/booking-summary">
-                        <Button size={"large"} type="primary">
-                            Confirm Booking
-                        </Button>
-                    </a>
+                    <Button
+                        size={"large"}
+                        type="primary"
+                        onClick={submitBooking}
+                    >
+                        Confirm Booking
+                    </Button>
                 </div>
             </div>
         );

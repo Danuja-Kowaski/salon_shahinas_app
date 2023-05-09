@@ -1,10 +1,26 @@
-import { React } from "react";
+import { React, useEffect } from "react";
 
+import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
+import { getLoggedInUser } from "../../utils";
 
 import "./styles.sass";
 
 const AdminHome = () => {
+    const user = getLoggedInUser();
+    const userType = user.user_type;
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!(userType === "ADMIN" || userType === "EMP")) {
+            navigate("/home");
+        }
+    }, []);
+
+    const openSchedule = () => {
+        navigate("/admin-schedule", { state: { isAdmin: true } });
+    };
+
     return (
         <div className="admin-home-section">
             <h2>Hello, System Admin</h2>
@@ -38,14 +54,14 @@ const AdminHome = () => {
                     </div>
                 </div>
             </a>
-            <a href="/admin-schedule">
+            <div onClick={openSchedule}>
                 <div className="admin-item">
                     <div className="img-item"></div>
                     <div className="info-item">
                         <h5>Schedule</h5>
                     </div>
                 </div>
-            </a>
+            </div>
             <a href="/admin-client-reviews">
                 <div className="admin-item">
                     <div className="img-item"></div>
@@ -55,10 +71,10 @@ const AdminHome = () => {
                 </div>
             </a>
             <div className="schedule-btn-row">
-                <h5>Today's Schedule</h5>
-                <Button type="primary" size="large">
+                {/* <h5>Today's Schedule</h5>
+                <Button type="primary" size="large" onClick={openSchedule}>
                     Check Schedule
-                </Button>
+                </Button> */}
             </div>
         </div>
     );

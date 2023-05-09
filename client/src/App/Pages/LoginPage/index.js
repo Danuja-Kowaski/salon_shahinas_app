@@ -9,10 +9,34 @@ import "./styles.sass";
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const user = getLoggedInUser();
 
     useEffect(() => {
-        console.log("current user", getLoggedInUser());
+        if (user) {
+            navigate("/home");
+        }
     }, []);
+
+    const getEmployees = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5500/api/emps`, {});
+            localStorage.setItem("employees", JSON.stringify(res.data));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getClients = async () => {
+        try {
+            const res = await axios.get(
+                `http://localhost:5500/api/clients`,
+                {}
+            );
+            localStorage.setItem("clients", JSON.stringify(res.data));
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const setUser = (userInfo) => {
         // Save user data in local storage
@@ -28,7 +52,13 @@ const LoginPage = () => {
             });
             console.log(res.data);
             setUser(res.data.user);
-            navigate("/home");
+            await getEmployees();
+            await getClients();
+            const userType = res.data.user?.user_type;
+            if (userType === "ADMIN" || userType === "EMP") {
+                return navigate("/admin-home");
+            }
+            return navigate("/home");
         } catch (error) {
             console.log(error);
         }

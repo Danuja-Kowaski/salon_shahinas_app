@@ -181,22 +181,3 @@ export const serviceOptions = [
         ],
     },
 ];
-
-export const employeeOptions = [
-    {
-        label: "Shahina	Laffir",
-        value: "SS001",
-    },
-    {
-        label: "Lamha Naizer",
-        value: "SS002",
-    },
-    {
-        label: "Fathima	Rafiqdeen",
-        value: "SS003",
-    },
-    {
-        label: "Chethani Perera",
-        value: "SS004",
-    },
-];

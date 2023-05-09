@@ -1,22 +1,34 @@
-import React from "react";
-
+import { React, useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+import { getLoggedInUser } from "../../utils";
 
 import "./styles.sass";
 
 const RegisterPage = () => {
+    const navigate = useNavigate();
+    const user = getLoggedInUser();
+
+    useEffect(() => {
+        if (user) {
+            navigate("/home");
+        }
+    }, []);
     // Register
     const onFinish = async (values) => {
         try {
-            const res = await axios.post('http://localhost:5500/api/register', {
+            const res = await axios.post("http://localhost:5500/api/register", {
                 username: values.username,
                 email: values.email,
-                password: values.password
-            })
-            console.log(res.data)
+                password: values.password,
+                user_type: "ADMIN",
+            });
+            console.log(res.data);
+            navigate("/login");
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     };
 

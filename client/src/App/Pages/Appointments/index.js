@@ -1,78 +1,101 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import axios from "axios";
 import { Tabs } from "antd";
+import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 import { getLoggedInUser } from "../../utils";
 
 import "./styles.sass";
 
 const Appointments = () => {
+    const navigate = useNavigate();
     const user = getLoggedInUser();
+    const [appointments, setAppointments] = useState([]);
 
-    console.log("user", user);
+    useEffect(() => {
+        console.log("appointments", appointments);
+    }, [appointments]);
 
-    const renderBooked = () => {
+    // Get Appointments
+    useEffect(() => {
+        getAppointments();
+    }, []);
+
+    const renderServices = (services) => {
+        let string = "";
+        services.forEach((item) => {
+            string += item.label.replace(/ *\([^)]*\) */g, "") + ", ";
+        });
+        return string;
+    };
+
+    const getAppointments = async () => {
+        try {
+            const res = await axios.get(
+                `http://localhost:5500/api/client/${user._id}`,
+                {}
+            );
+            console.log("user appointments", res.data);
+            setAppointments(res.data.appointments);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const openAppointmentInfo = (_, val) => {
+        const info = appointments[val];
+        navigate("/booking-summary", { state: { info, showBooking: true } });
+    };
+
+    const renderAppointment = (item, i) => {
         return (
             <div>
-                <div className="appointment-item">
+                <div
+                    className="appointment-item"
+                    onClick={(event) => openAppointmentInfo(event, i)}
+                    key={i}
+                >
                     <div className="img-item"></div>
                     <div className="info-item">
                         <p className="title">Booking Details</p>
                         <p>
-                            Booking ID : <b>00001</b>
+                            Booking ID : <b>{item._id}</b>
                         </p>
                         <p>
-                            Booking date : <b>01/01/2023</b>
+                            Booking date :{" "}
+                            <b>
+                                {dayjs(item.bookingDate).format("DD/MM/YYYY")}
+                            </b>
                         </p>
-                        <p>
-                            Booked Session : <b>Hair Cut, Hair Style</b>
-                        </p>
+                        <p>Booked Session : {renderServices(item.services)}</p>
                     </div>
                 </div>
             </div>
         );
+    };
+
+    const renderBooked = () => {
+        return appointments.map((item, i) => {
+            if (dayjs(item.bookingDate).isAfter(dayjs())) {
+                return renderAppointment(item, i);
+            }
+            return "";
+        });
     };
 
     const renderCompleted = () => {
-        return (
-            <div>
-                <div className="appointment-item">
-                    <div className="img-item"></div>
-                    <div className="info-item">
-                        <p className="title">Booking Details</p>
-                        <p>
-                            Booking ID : <b>00002</b>
-                        </p>
-                        <p>
-                            Booking date : <b>01/02/2023</b>
-                        </p>
-                        <p>
-                            Booked Session : <b>Hair Cut, Hair Style</b>
-                        </p>
-                    </div>
-                </div>
-                <div className="appointment-item">
-                    <div className="img-item"></div>
-                    <div className="info-item">
-                        <p className="title">Booking Details</p>
-                        <p>
-                            Booking ID : <b>00003</b>
-                        </p>
-                        <p>
-                            Booking date : <b>01/03/2023</b>
-                        </p>
-                        <p>
-                            Booked Session : <b>Hair Cut, Hair Style</b>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        );
+        return appointments.map((item, i) => {
+            if (dayjs(item.bookingDate).isBefore(dayjs())) {
+                return renderAppointment(item, i);
+            }
+            return "";
+        });
     };
 
-    const renderCanceled = () => {
-        return <h5>No Cancelled Bookings</h5>;
-    };
+    // const renderCanceled = () => {
+    //     return <h5>No Cancelled Bookings</h5>;
+    // };
 
     const tabs = [
         {
@@ -85,33 +108,18 @@ const Appointments = () => {
             key: 2,
             children: renderCompleted(),
         },
-        {
-            label: "Cancelled",
-            key: 3,
-            children: renderCanceled(),
-        },
+        // {
+        //     label: "Cancelled",
+        //     key: 3,
+        //     children: renderCanceled(),
+        // },
     ];
-
-    // Get reviews
-    useEffect(() => {
-        const getAppointments = async () => {
-            try {
-                const res = await axios.get(
-                    `http://localhost:5500/api/users/${user._id}`,
-                    {}
-                );
-                console.log("user appointments", res.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        getAppointments();
-    }, [user]);
 
     return (
         <div className="appointments-section">
             <h4>Appointments</h4>
             <Tabs defaultActiveKey="1" centered size={"large"} items={tabs} />
+            <div className="footer"></div>
         </div>
     );
 };

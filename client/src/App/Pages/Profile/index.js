@@ -12,11 +12,14 @@ import { getLoggedInUser } from "../../utils";
 import "./styles.sass";
 
 const Profile = () => {
+    const user = getLoggedInUser();
     const navigate = useNavigate();
 
-    const logout = () => {
+    const logout = async () => {
         //Logout
-        localStorage.removeItem("user");
+        await localStorage.removeItem("user");
+        await localStorage.removeItem("employees");
+        await localStorage.removeItem("client");
         navigate("/login");
     };
 
@@ -34,7 +37,7 @@ const Profile = () => {
                         src="https://images.unsplash.com/photo-1635107510862-53886e926b74?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
                     />
                 </div>
-                <h4>Jane Doe</h4>
+                <h4>{user.username}</h4>
             </div>
             <div className="profile-content">
                 <div className="content-icon">

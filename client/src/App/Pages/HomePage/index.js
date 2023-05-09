@@ -55,7 +55,10 @@ const HomePage = () => {
                         onChange={(value) => {
                             setDate(value.format("YYYY-MM-DD"));
                         }}
-                        defaultValue={dayjs()}
+                        validRange={[
+                            dayjs().startOf("day"),
+                            dayjs().add(6, "month"),
+                        ]}
                     />
                 </div>
                 <div className="appointment-button-row">

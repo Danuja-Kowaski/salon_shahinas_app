@@ -1,16 +1,18 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Select, Button, TimePicker, Form } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-import { serviceOptions, employeeOptions } from "../constants";
+import { serviceOptions } from "../constants";
 
 import "./styles.sass";
 
 const BookingPage = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
+    const [employees, setEmployees] = useState([]);
 
     const { date } = state;
 
@@ -20,6 +22,35 @@ const BookingPage = () => {
         console.log(`selected ${value}`);
     };
 
+    useEffect(() => {
+        getEmployees();
+    }, []);
+
+    useEffect(() => {
+        console.log("emp", employees);
+    }, [employees]);
+
+    const getEmployees = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5500/api/emps`, {});
+            setEmployees(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getItems = () => {
+        let items = [];
+        employees.forEach((emp) => {
+            let item = {
+                label: emp.empName,
+                value: emp._id,
+            };
+            items.push(item);
+        });
+
+        return items;
+    };
     const onFinish = (form) => {
         console.log("form finished", form);
         // constdateObj = { date: date };
@@ -85,7 +116,7 @@ const BookingPage = () => {
                             // defaultValue="a1"
                             onChange={handleChange}
                             style={{ width: "100%" }}
-                            options={employeeOptions}
+                            options={getItems()}
                         />
                     </Form.Item>
                 </div>
