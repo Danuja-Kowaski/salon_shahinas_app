@@ -23,7 +23,7 @@ const AdminHome = () => {
 
     return (
         <div className="admin-home-section">
-            <h2>Hello, System Admin</h2>
+            <h2>Hello, employee</h2>
             <div className="admin-stats">
                 <div className="stats-item">
                     <div className="client-item">

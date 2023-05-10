@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { getLoggedInUser } from "../../utils";
 
 import "./styles.sass";
+import TextArea from "antd/es/input/TextArea";
 
 const BookingSummary = () => {
     const navigate = useNavigate();
@@ -37,9 +38,12 @@ const BookingSummary = () => {
             total += parseInt(item.price);
             const tempString = item.label.replace(/ *\([^)]*\) */g, "") + ", ";
             return (
-                <div className="item-info">
-                    <p>{tempString}</p>
-                    <p>{item.price}/=</p>
+                <div>
+                    <div>
+                        <p>{tempString}</p>
+                        <p>{item.price}/=</p>
+                        <TextArea>Review</TextArea>
+                    </div>
                 </div>
             );
         });
@@ -115,6 +119,12 @@ const BookingSummary = () => {
                 <div className="cancel-btn-row">
                     <Button size="large" type="primary" onClick={cancelBooking}>
                         Cancel
+                    </Button>
+                    <Button size="large" type="primary" onClick={cancelBooking}>
+                        Reschedule
+                    </Button>
+                    <Button size="large" type="primary" onClick={cancelBooking}>
+                        Pay Now
                     </Button>
                 </div>
             ) : null}

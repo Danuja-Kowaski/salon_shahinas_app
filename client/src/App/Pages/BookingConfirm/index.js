@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState } from "react";
 import { Button } from "antd";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
@@ -18,6 +18,32 @@ const BookingConfirm = () => {
     const date = dayjs(data?.date);
     let total = 0;
     let services = [];
+
+        const [playing, setPlaying] = useState(false);
+    	const HEIGHT = 500;
+    	const WIDTH = 500;
+
+    	const startVideo = () => {
+    		setPlaying(true);
+    		navigator.getUserMedia(
+    			{
+    				video: true,
+    			},
+    			(stream) => {
+    				let video = document.getElementsByClassName('app__videoFeed')[0];
+    				if (video) {
+    					video.srcObject = stream;
+    				}
+    			},
+    			(err) => console.error(err)
+    		);
+    	};
+
+    	const stopVideo = () => {
+    		setPlaying(false);
+    		let video = document.getElementsByClassName('app__videoFeed')[0];
+    		video.srcObject.getTracks()[0].stop();
+    	};
 
     console.log("data", data);
 
@@ -115,10 +141,26 @@ const BookingConfirm = () => {
                                 Thickness : Check
                             </Button>
                         </div>
-                        <div className="measurement-item">
+                        <div className="measurement-item-wrapper">
                             <Button size={"large"} type="primary">
                                 Length: Check
                             </Button>
+                        </div>
+                        <div className="measurement-item-wrapper">
+                        <video
+                            height={HEIGHT}
+                            width={WIDTH}
+                            muted
+                            autoPlay
+                            className="app__videoFeed"
+                        ></video>
+                        <div className="app__input">
+                            {playing ? (
+                                <button onClick={stopVideo}>Stop</button>
+                            ) : (
+                                <button onClick={startVideo}>Start</button>
+                            )}
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -146,3 +188,20 @@ const BookingConfirm = () => {
 };
 
 export default BookingConfirm;
+
+
+
+// 	return (
+// 		<div className="app">
+// 			<div className="app__container">
+// 				<video
+// 					height={HEIGHT}
+// 					width={WIDTH}
+// 					muted
+// 					autoPlay
+// 					className="app__videoFeed"
+// 				></video>
+// 			</div>
+// 
+// 		</div>
+// 	);

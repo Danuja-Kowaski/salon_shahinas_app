@@ -114,7 +114,6 @@ const Appointments = () => {
         //     children: renderCanceled(),
         // },
     ];
-
     return (
         <div className="appointments-section">
             <h4>Appointments</h4>

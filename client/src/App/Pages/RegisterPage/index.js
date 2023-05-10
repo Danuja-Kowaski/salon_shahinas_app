@@ -23,7 +23,7 @@ const RegisterPage = () => {
                 username: values.username,
                 email: values.email,
                 password: values.password,
-                user_type: "ADMIN",
+                user_type: "CLIENT",
             });
             console.log(res.data);
             navigate("/login");
