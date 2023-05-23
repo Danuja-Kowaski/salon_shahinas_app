@@ -10,6 +10,9 @@ router.post('/api/appointment/:id/:empid', async (req, res) => {
     try{
         const user = await User.findById(req.params.id);
         const emp = await Employee.findById(req.params.empid)
+        if (!emp){
+          return res.status(404).json({message: 'Employee not found' })
+        }
         if (user && user.user_type === "CLIENT") {
           const newAppointment = await new Appointment({
             user_id:req.params.id,
