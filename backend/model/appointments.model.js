@@ -24,6 +24,12 @@ const appointmentSchema = new mongoose.Schema({
         type: String,
     },
 }],
+comment:[{
+  type: mongoose.Schema.Types.ObjectId, ref: 'Review'
+}],
+isPaid:{
+  type: String
+}
 });
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);
