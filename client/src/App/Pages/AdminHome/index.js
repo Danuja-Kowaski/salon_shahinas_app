@@ -73,13 +73,13 @@ const AdminHome = () => {
             <div className="admin-stats">
                 <div className="stats-item">
                     <div className="client-item">
-                        <div>{appointments.length > 0 ? getTotalAppointmentsToday().length : null}</div>
+                        <div>{appointments.length > 0 ? getTotalAppointmentsToday().length : 0}</div>
                     </div>
                     <p>Total Clients for Today</p>
                 </div>
                 <div className="stats-item">
                     <div className="earnings-item">
-                        <div>Rs. {appointments.length > 0 ? getTotalEarnings() : null}</div>
+                        <div>Rs. {appointments.length > 0 ? getTotalEarnings() : 0}</div>
                     </div>
                     <p>Total Earnings for this week</p>
                 </div>

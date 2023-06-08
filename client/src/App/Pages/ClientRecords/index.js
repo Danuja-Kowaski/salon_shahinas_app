@@ -13,7 +13,10 @@ const ClientRecords = () => {
 
     const getClients = async () => {
         try {
-            const res = await axios.get(`http://localhost:5500/api/clients`, {});
+            const res = await axios.get(
+                `http://localhost:5500/api/clients`,
+                {}
+            );
             setClients(res.data);
         } catch (error) {
             console.log(error);
@@ -31,14 +34,15 @@ const ClientRecords = () => {
         return items;
     };
 
-
     return (
         <div className="client-record-section">
-            <List 
-                items={getItems()} 
-                heading="My Client Records" 
-                isClient={true}
-            />
+            {clients ? (
+                <List
+                    items={getItems()}
+                    heading="My Client Records"
+                    isClient={true}
+                />
+            ) : null}
         </div>
     );
 };

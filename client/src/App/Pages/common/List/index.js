@@ -3,14 +3,25 @@ import { useNavigate } from "react-router-dom";
 
 import "./styles.sass";
 
-const List = ({ items, heading, isEmployees }) => {
+const List = ({ items, heading, isEmployees, isClient }) => {
     console.log("items in comp", items);
 
     const navigate = useNavigate();
 
     const openSchedule = (_, i) => {
-        if (!isEmployees) return;
-        navigate("/admin-schedule", { state: { userId: items[i].data._id } });
+        if (isEmployees) {
+            navigate("/admin-schedule", {
+                state: { userId: items[i].data._id },
+            });
+            return;
+        }
+        if (isClient) {
+            navigate("/admin-client-details", {
+                state: { client: items[i].data },
+            });
+            return;
+        }
+        return;
     };
 
     const renderItems = () => {

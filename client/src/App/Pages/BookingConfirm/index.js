@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Button, Drawer } from "antd";
+import { Button, Drawer, Input } from "antd";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -20,6 +20,7 @@ const BookingConfirm = () => {
     let total = 0;
     let services = [];
     const [open, setOpen] = useState(false);
+    const [thickness, setThickness] = useState("");
 
     const [playing, setPlaying] = useState(false);
     const HEIGHT = 500;
@@ -108,6 +109,10 @@ const BookingConfirm = () => {
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const setInput = (e) => {
+        setThickness(e.target.value);
     };
 
     const renderBookingSection = () => {
@@ -248,6 +253,22 @@ const BookingConfirm = () => {
                                 }
                             </b>
                         </div>
+                        <div className="thickness-input">
+                            <Input
+                                Placeholder="Enter Thickness"
+                                onChange={setInput}
+                                value={thickness}
+                            />
+                        </div>
+                        <br />
+                        <Button
+                            type="primary"
+                            onClick={() => {
+                                setOpen(false);
+                            }}
+                        >
+                            Back
+                        </Button>
                     </div>
                 </Drawer>
             </div>

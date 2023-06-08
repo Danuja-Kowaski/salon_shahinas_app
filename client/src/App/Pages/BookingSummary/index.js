@@ -1,7 +1,7 @@
 import { React, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Button, Form, Modal } from "antd";
-import { ExclamationCircleFilled } from '@ant-design/icons';
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -29,21 +29,30 @@ const BookingSummary = () => {
 
     useEffect(() => {
         //get all reviews and check if review is present for this booking
-    }, [])
+    }, []);
 
     const showConfirm = () => {
         confirm({
-          title: 'Are you sure you want to cancel this booking?',
-          icon: <ExclamationCircleFilled />,
-          content: '',
-          onOk() {
-            cancelBooking();
-          },
-          onCancel() {
-            console.log('Cancel');
-          },
+            title: "Are you sure you want to cancel this booking?",
+            icon: <ExclamationCircleFilled />,
+            content: (
+                <div>
+                    <i>
+                        <b>
+                            A cancellation fee of 20% of the total booking
+                            amount will be charged from your account
+                        </b>
+                    </i>
+                </div>
+            ),
+            onOk() {
+                cancelBooking();
+            },
+            onCancel() {
+                console.log("Cancel");
+            },
         });
-      };
+    };
 
     const renderServices = () => {
         let string = "";
@@ -58,10 +67,10 @@ const BookingSummary = () => {
             total += parseInt(item.price);
             const tempString = item.label.replace(/ *\([^)]*\) */g, "") + "";
             return (
-                    <div className="item-info">
-                        <p>{tempString}</p>
-                        <p>{item.price}/=</p>
-                    </div>
+                <div className="item-info">
+                    <p>{tempString}</p>
+                    <p>{item.price}/=</p>
+                </div>
             );
         });
     };
@@ -77,7 +86,7 @@ const BookingSummary = () => {
     const onFinish = async (value) => {
         // Submit review
         console.log("value", value);
-        try{
+        try {
             // const res = await axios.post(
             //     `http://localhost:5500/api/review/${info._id}`,
             //     {
@@ -85,9 +94,9 @@ const BookingSummary = () => {
             //     }
             // );
             // console.log("review sent", res);
-        } catch(error){
+        } catch (error) {
             console.log("error", error);
-        };
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -150,35 +159,38 @@ const BookingSummary = () => {
                     {completed ? ": Paid in cash" : "Yet to be Paid"}
                 </div>
             </div>
-            {showBooking && completed?
-            <div className="review-row">
-                <Form 
-                    name="basic"
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
-                >
-                    <Form.Item 
-                        label="Write a Review" 
-                        name="review"
-                        rules={[
-                            {
-                            required: true,
-                            message: "Please enter a review first"
-                            },
-                        ]}
+            {showBooking && completed ? (
+                <div className="review-row">
+                    <Form
+                        name="basic"
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                        autoComplete="off"
                     >
-                        <TextArea showCount maxLength={300} autoSize={{ minRows: 4, maxRows: 5 }}/>
-                    </Form.Item>
-                    <Form.Item >
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
-            : null
-            }
+                        <Form.Item
+                            label="Write a Review"
+                            name="review"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please enter a review first",
+                                },
+                            ]}
+                        >
+                            <TextArea
+                                showCount
+                                maxLength={300}
+                                autoSize={{ minRows: 4, maxRows: 5 }}
+                            />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                                Submit
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </div>
+            ) : null}
             {!completed ? (
                 <div className="cancel-btn-row">
                     <Button size="large" type="primary" onClick={showConfirm}>
