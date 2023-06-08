@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Button, Drawer, Input } from "antd";
+import { Button } from "antd";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -12,15 +12,17 @@ import { serviceOptions } from "../constants";
 import "./styles.sass";
 
 const BookingConfirm = () => {
-    const navigate = useNavigate();
-    const user = getLoggedInUser();
-    const { state } = useLocation();
-    const data = state?.data;
-    const date = dayjs(data?.date);
-    let total = 0;
-    let services = [];
-    const [open, setOpen] = useState(false);
-    const [thickness, setThickness] = useState("");
+  const navigate = useNavigate();
+  const user = getLoggedInUser();
+  const { state } = useLocation();
+  const data = state?.data;
+  const date = dayjs(data?.date);
+  let total = 0;
+  let services = [];
+  const [open, setOpen] = useState(false);
+  const [openCamDrawer, setOpenCamDrawer] = useState(false);
+  const [size, setSize] = useState();
+  const [thickness, setThickness] = useState("");
 
     const [playing, setPlaying] = useState(false);
     const HEIGHT = 500;
@@ -49,70 +51,73 @@ const BookingConfirm = () => {
         video.srcObject.getTracks()[0].stop();
     };
 
-    console.log("data", data);
+  console.log("data", data);
 
-    const renderServiceItems = () => {
-        return data.services.map((service) => {
-            const item = findServiceItem(service);
-            total += parseInt(item.price);
-            services.push(item);
-            return (
-                <div className="item-info">
-                    <p>{item.label.replace(/ *\([^)]*\) */g, "")}</p>
-                    <p>{item.price}/=</p>
-                </div>
-            );
-        });
-    };
+  const renderServiceItems = () => {
+    return data.services.map((service) => {
+      const item = findServiceItem(service);
+      total += parseInt(item.price);
+      services.push(item);
+      return (
+        <div className="item-info">
+          <p>{item.label.replace(/ *\([^)]*\) */g, "")}</p>
+          <p>{item.price}/=</p>
+        </div>
+      );
+    });
+  };
 
-    const findServiceItem = (value) => {
-        let serviceItem;
-        console.log("serviceOptions", serviceOptions);
-        serviceOptions.forEach((type) => {
-            const item = type.options.find((option) => {
-                console.log("optionval", option.value);
-                console.log("val", value);
-                return option.value === value;
-            });
-            if (item) {
-                serviceItem = item;
-            }
-        });
-        return serviceItem;
-    };
+  const findServiceItem = (value) => {
+    let serviceItem;
+    console.log("serviceOptions", serviceOptions);
+    serviceOptions.forEach((type) => {
+      const item = type.options.find((option) => {
+        console.log("optionval", option.value);
+        console.log("val", value);
+        return option.value === value;
+      });
+      if (item) {
+        serviceItem = item;
+      }
+    });
+    return serviceItem;
+  };
 
-    const renderSelectedServices = () => {
-        let services = "";
-        console.log("services", data.services);
-        data.services.forEach((service) => {
-            services +=
-                findServiceItem(service).label.replace(/ *\([^)]*\) */g, "") +
-                ", ";
-        });
-        return services;
-    };
+  const renderSelectedServices = () => {
+    let services = "";
+    console.log("services", data.services);
+    data.services.forEach((service) => {
+      services +=
+        findServiceItem(service).label.replace(/ *\([^)]*\) */g, "") + ", ";
+    });
+    return services;
+  };
 
-    const submitBooking = async () => {
-        try {
-            const info = {
-                id: user._id,
-                empid: data.stylists,
-                bookingDate: data.date,
-                services: services,
-            };
-            const res = await axios.post(
-                `http://localhost:5500/api/appointment/${user._id}/${data.stylists}`,
-                info
-            );
-            console.log("user appointments", res.data);
-            navigate("/booking-summary", { state: { info } });
-        } catch (error) {
-            console.log(error);
-        }
-    };
+  const submitBooking = async () => {
+    try {
+      const info = {
+        id: user._id,
+        empid: data.stylists,
+        bookingDate: data.date,
+        services: services,
+      };
+      const res = await axios.post(
+        `http://localhost:5500/api/appointment/${user._id}/${data.stylists}`,
+        info
+      );
+      console.log("user appointments", res.data);
+      navigate("/booking-summary", { state: { info } });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
     const setInput = (e) => {
         setThickness(e.target.value);
+    };
+
+    const onClose = () => {
+      setOpen(false);
     };
 
     const renderBookingSection = () => {
@@ -156,7 +161,7 @@ const BookingConfirm = () => {
                             </Button>
                         </div>
                         <div className="measurement-item">
-                            <Button size={"large"} type="primary">
+                            <Button size={"large"} type="primary" onClick={() => {setOpenCamDrawer(true)}}>
                                 Length: Check
                             </Button>
                         </div>
@@ -271,14 +276,37 @@ const BookingConfirm = () => {
                         </Button>
                     </div>
                 </Drawer>
+                <Drawer
+                  title={`${size} Drawer`}
+                  placement="right"
+                  size={size}
+                  onClose={onClose}
+                  open={openCamDrawer}
+                  extra={
+                    <Space>
+                      <Button onClick={onClose}>Cancel</Button>
+                      <Button type="primary" onClick={onClose}>
+                        OK
+                      </Button>
+                    </Space>
+                  }
+                >
+                  <div>
+                  <p>Some contents...</p>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                  </div>
+                </Drawer>
             </div>
         );
     };
 
-    return renderBookingSection();
+  return renderBookingSection();
 };
 
 export default BookingConfirm;
+
+
 
 // 	return (
 // 		<div className="app">
@@ -291,6 +319,6 @@ export default BookingConfirm;
 // 					className="app__videoFeed"
 // 				></video>
 // 			</div>
-//
+// 
 // 		</div>
 // 	);

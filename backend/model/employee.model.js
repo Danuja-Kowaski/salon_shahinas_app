@@ -4,6 +4,9 @@ const employeeSchema = new mongoose.Schema({
   empName:{
     type: String,
   },
+  empPassword:{
+    type: String
+  },
   appointments: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Appointment'

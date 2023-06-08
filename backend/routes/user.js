@@ -3,7 +3,7 @@ const Employee = require('../model/employee.model');
 //import model
 const User = require('../model/user.model');
 
-//register user to db
+//register emp to db
 router.post('/api/register/emp', async (req, res) => {
     try{
         const body = req.body;
@@ -39,14 +39,25 @@ router.post('/api/register', async (req, res) => {
 router.post('/api/login', async (req, res) => {
     try{
         const body = req.body;
-        const user = await User.findOne({ username : body.username })
+        const user = await User.findOne({ username : body.name })
+        const emp = await Employee.findOne({ empName : body.name })
         if (user){
             if (user.password === body.password){
-                return res.status(200).json({user: user});
+                if (user.user_type === 'CLIENT') {
+                    return res.status(200).json({user: user});
+                  } else if (user.user_type === 'EMP') {
+                    return res.status(200).json({user: user});
+                  }
             }
             return res.status(401).json({ message: 'Invalid username or password' });  
         }
-        return res.status(401).json({ message: 'Invalid username or password' });
+        else if (emp){
+            console.log(emp)
+            if (emp.empPassword === body.password){
+                return res.status(200).json({emp: emp});
+            }
+            return res.status(401).json({ message: 'Invalid employee name or password' });
+        }
         }catch(err){
         res.json(err);
     }

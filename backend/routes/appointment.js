@@ -10,6 +10,9 @@ router.post('/api/appointment/:id/:empid', async (req, res) => {
     try{
         const user = await User.findById(req.params.id);
         const emp = await Employee.findById(req.params.empid)
+        if (!emp){
+          return res.status(404).json({message: 'Employee not found' })
+        }
         if (user && user.user_type === "CLIENT") {
           const newAppointment = await new Appointment({
             user_id:req.params.id,
@@ -30,6 +33,10 @@ router.post('/api/appointment/:id/:empid', async (req, res) => {
         console.log(err)
     }
 });
+
+// Update an appointment
+// router.put('/api/appointment/update/:id', async (req, res) => {
+// })
 
 //Get all appointments
 router.get('/api/appointments', async (req, res) => {
@@ -79,18 +86,17 @@ router.get('/api/reviews', async (req, res) => {
   }
 })
 
-// Write a review for a user
+// Write a review for an appointment
 router.post('/api/review/:id', async (req, res) => {
   try{
-    const body = req.body
-    const user = await User.findById(req.params.id);
-    if (user && user.user_type === "CLIENT") {
+    const appointment = await Appointment.findById(req.params.id);
+    if (appointment) {
         const reviewData = await new Review({ 
-          user_id: req.params.id,
+          app_id: req.params.id,
           comment : req.body.comment
          }).save()
-        user.comments.push(reviewData._id)
-        const data = await user.save()
+         appointment.comment.push(reviewData._id);
+        const data = await appointment.save()
         return res.status(200).json({ message: 'Review added successfully' });
       }
     else{
