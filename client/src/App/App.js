@@ -32,10 +32,14 @@ import ClientReviews from "./Pages/ClientReviews";
 import ClientDetails from "./Pages/ClientDetails";
 
 import Protected from "./Pages/common/Protected";
+import { getLoggedInUser } from "./utils";
 import "./styles.scss";
 
 function App() {
     const location = useLocation();
+
+    const user = getLoggedInUser();
+    const isLoggedIn = user ? true : false;
 
     return (
         <ConfigProvider
@@ -47,6 +51,9 @@ function App() {
         >
             <Routes>
                 {/* Normal User Routes */}
+                
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
                 <Route
                     path="/home"
                     element={
@@ -55,8 +62,6 @@ function App() {
                         </Protected>
                     }
                 />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
                 <Route
                     path="/"
                     element={
@@ -172,9 +177,11 @@ function App() {
                 />
             </Routes>
             {
-                // Dont show navbar if not logged in
+            // Dont show navbar if not logged in
+            isLoggedIn? 
                 location.pathname !== "/login" &&
                 location.pathname !== "/register" ? (
+                    !(user.user_type === "ADMIN" || user.user_type === "EMP")  ?
                     <div className="navbar">
                         <CustomLink to="/messages" path={location.pathname}>
                             <MailOutlined />
@@ -195,7 +202,29 @@ function App() {
                             <UserOutlined />
                         </CustomLink>
                     </div>
+                    :
+                    <div className="navbar">
+                        <CustomLink to="/admin-home" path={location.pathname}>
+                            <HomeOutlined />
+                        </CustomLink>
+                        <CustomLink to="/messages" path={location.pathname}>
+                            <MailOutlined />
+                        </CustomLink>
+                        {/* <CustomLink
+                            to="/notifications"
+                            path={location.pathname}
+                        >
+                            <BellOutlined />
+                        </CustomLink> */}
+                        <CustomLink to="/admin-schedule" path={location.pathname}>
+                            <ScheduleOutlined />
+                        </CustomLink>
+                        <CustomLink to="/profile" path={location.pathname}>
+                            <UserOutlined />
+                        </CustomLink>
+                    </div>
                 ) : null
+            : null
             }
         </ConfigProvider>
     );
