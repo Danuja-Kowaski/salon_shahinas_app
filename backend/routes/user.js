@@ -47,9 +47,11 @@ router.post('/api/login', async (req, res) => {
                     return res.status(200).json({user: user});
                   } else if (user.user_type === 'EMP') {
                     return res.status(200).json({user: user});
-                  }
+                   }
             }
-            return res.status(401).json({ message: 'Invalid username or password' });  
+            else{
+                return res.status(401).json({ message: 'Invalid username or password' });  
+            }
         }
         else if (emp){
             console.log(emp)
