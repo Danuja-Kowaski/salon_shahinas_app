@@ -1,5 +1,6 @@
 import { React } from "react";
 import { Divider } from "antd";
+import { HeartOutlined } from "@ant-design/icons";
 
 import offer1 from "../../Assets/Media/Images/offer-banner-1.png";
 
@@ -7,11 +8,11 @@ import "./styles.sass";
 
 const Notifications = () => {
     return (
-        <div className="notifications-section">
+        <div className="notifications-section background-theme">
             <h4>Notifications</h4>
             <div className="notification-item">
                 <div className="info-wrapper">
-                    <div className="img-item"></div>
+                    <div className="img-item"><HeartOutlined /></div>
                     <div className="info-item">
                         <p className="title">Mothers Day Offer</p>
                         {/* <p>

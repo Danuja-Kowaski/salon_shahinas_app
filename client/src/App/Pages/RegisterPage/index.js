@@ -37,7 +37,7 @@ const RegisterPage = () => {
     };
 
     return (
-        <div className="login-section">
+        <div className="register-section background-theme">
             <div className="form-wrapper">
                 <div className="form-sub-wrapper">
                     <h3>Sign in</h3>

@@ -8,7 +8,7 @@ body {
 
     .navbar {
         position: fixed;
-        background-color: #fff;
+        background-color: $light-purple;
         bottom: 0;
         width: 100%;
         height: 60px;
@@ -29,14 +29,35 @@ body {
             span svg {
                 width: 25px;
                 height: 25px;
-                color: #000;
+                color: #fff;
             }
         }
 
         .active {
             span svg {
-                color: $primary;
+                color: #000;
             }
         }
+    }
+
+    .form-background {
+        color: $dark-purple;
+    }
+
+    .input-fields {
+        color: $dark-pink;
+    }
+
+    .background-theme {
+        background: rgb(239,71,111);
+        background: linear-gradient(0deg, rgba(239,71,111,1) 0%, rgba(254,252,253,1) 100%);
+    }
+
+    .light-blue{
+        color: $light-blue
+    }
+
+    .dark-purple{
+        color: $light-purple
     }
 }

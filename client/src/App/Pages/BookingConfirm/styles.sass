@@ -2,7 +2,7 @@
 
 
 .booking-confirm-section
-    height: 100%
+    min-height: calc(100vh - 60px)
     display: flex
     flex-direction: column
     justify-content: space-evenly
@@ -25,7 +25,7 @@
                 display: flex
                 justify-content: center
                 align-items: center
-                background-color: #D9D9D9
+                background-color: $light-purple
                 height: 40px
                 border-radius: 10px
 
@@ -42,7 +42,7 @@
             display: flex
             justify-content: center
             align-items: center
-            background-color: #D9D9D9
+            background-color: $light-purple
             width: 70vw
             padding: 10px 15px 10px 15px
             border-radius: 10px
@@ -61,12 +61,14 @@
             justify-content: space-evenly
 
             .measurement-item
-                background-color: $primary
                 border-radius: 6px
+                background-color: $dark-pink!important
 
-                .ant-btn-primary 
+                .ant-btn-primary , .ant-btn-default
                     color: #000
                     font-weight: bold
+                    background-color: $dark-pink!important
+                    border-color: $dark-pink
 
         h4
             font-weight: bold

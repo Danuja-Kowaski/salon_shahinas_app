@@ -1,5 +1,6 @@
 import { React } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserOutlined } from "@ant-design/icons";
 
 import "./styles.sass";
 
@@ -32,7 +33,7 @@ const List = ({ items, heading, isEmployees, isClient }) => {
                     onClick={(event) => openSchedule(event, i)}
                     key={i}
                 >
-                    <div className="img-item"></div>
+                    <div className="img-item"><UserOutlined /></div>
                     <h5>{item.title}</h5>
                 </div>
             );
@@ -40,7 +41,7 @@ const List = ({ items, heading, isEmployees, isClient }) => {
     };
 
     return (
-        <div className="list-section">
+        <div className="list-section background-theme">
             <h2>{heading}</h2>
             {renderItems()}
             <div className="footer"></div>

@@ -1,7 +1,7 @@
 @import '../../../styles/variables.sass'
 
 .admin-home-section
-    height: calc(100vh - 60px)
+    min-height: calc(100vh - 60px)
     width: 100%
     padding: 20px
 
@@ -9,6 +9,10 @@
         font-weight: bold
         margin-top: 30px
         margin-bottom: 20px
+        color: $light-purple
+
+    .ant-divider
+        margin: 5px 0px
 
     .admin-stats
         display: flex
@@ -25,6 +29,7 @@
                 padding-top: 3px
                 font-weight: bold
                 font-size: 10px
+                color: $light-purple
 
             div
                 box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px
@@ -35,17 +40,16 @@
                 height: 35vw
                 background-color: gray
                 border-radius: 10px
+                background-color: #ef476e86
 
             .client-item
 
                 div
                     font-size: 60px
 
-            .earnings-items
-
     a
         text-decoration: none
-        color: black
+        color: white
 
     a:hover
         text-decoration: none
@@ -56,27 +60,30 @@
         display: flex
         flex-direction: row
         align-items: center
-        background-color: $secondary
         padding: 10px 10px 
         margin-bottom: 15px
         border-radius: 10px
-        
+        background-color: $light-purple
 
         .img-item
             min-width: 40px
             height: 40px
             border-radius: 100%
-            background-color: #9c9c9c
-            border: 2px dashed #1b4e79
+            background-color: $light-blue
             margin-left: 20px
             margin-right: 40px
+            display: flex
+            align-items: center
+            justify-content: center
+            color: black
+            font-size: 22px
 
         .info-item
 
             h5
-                font-weight: 600
                 padding: 0
                 margin: 0
+                color: white
     
     .schedule-btn-row
         margin-top: 40px
@@ -91,3 +98,33 @@
         button
             align-self: center
         
+    .schedule-row
+        padding-bottom: 70px
+
+        h2
+
+        .info-wrapper
+            display: flex
+            flex-direction: column
+            padding: 20px
+
+            .info-item
+                margin-bottom: 10px
+
+                h6
+                    font-weight: bold
+
+                .info-details
+                    display: flex
+                    flex-direction: row
+                    margin-bottom: 10px
+
+                    p
+                        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px
+                        background-color: $primary
+                        margin: 0
+                        padding: 5px 20px
+                        margin-left: 12px
+                        border-radius: 7px
+                        font-size: 14px
+            

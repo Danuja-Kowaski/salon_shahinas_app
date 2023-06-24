@@ -1,7 +1,7 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Button, Form, Modal } from "antd";
-import { ExclamationCircleFilled } from "@ant-design/icons";
+import { Button, Form, Modal, Drawer, Space, DatePicker, TimePicker } from "antd";
+import { ExclamationCircleFilled, UserOutlined, ScheduleOutlined, UnorderedListOutlined, CheckOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -17,6 +17,9 @@ const BookingSummary = () => {
     const { state } = useLocation();
     const { info, showBooking } = state;
     const { confirm } = Modal;
+    const [openDrawer, setOpenDrawer] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     let total = 0;
 
     const completed = showBooking
@@ -103,13 +106,22 @@ const BookingSummary = () => {
         console.log("Failed:", errorInfo);
     };
 
+    const reschedule = (values) => {
+        console.log("values", values)
+        setOpenDrawer(false);
+    };
+
+    const processPayment = () => {
+        //Update payment status
+    };
+
     return (
-        <div div className="booking-summary-section">
+        <div div className="booking-summary-section background-theme">
             {!showBooking ? (
                 <div className="booking-confirmed-wrapper">
                     <h2>Booking Confirmed</h2>
                     <div className="booking-confirmed-card">
-                        <div className="img-item"></div>
+                        <div className="img-item"><CheckOutlined /></div>
                         <div>
                             <p className="info-title">Congratulations!</p>
                             <p>Your Booking has been confirmed</p>
@@ -121,14 +133,14 @@ const BookingSummary = () => {
                 <h4>Booking Details</h4>
                 <div>
                     <div className="booking-detail-item">
-                        <div className="left-items"></div>
+                        <div className="left-items"><UserOutlined /></div>
                         <div className="right-items">
                             <h6>Name</h6>
                             <p>{user.username}</p>
                         </div>
                     </div>
                     <div className="booking-detail-item">
-                        <div className="left-items"></div>
+                        <div className="left-items"><ScheduleOutlined /></div>
                         <div className="right-items">
                             <h6>Date</h6>
                             <p>
@@ -137,7 +149,7 @@ const BookingSummary = () => {
                         </div>
                     </div>
                     <div className="booking-detail-item">
-                        <div className="left-items"></div>
+                        <div className="left-items"><UnorderedListOutlined /></div>
                         <div className="right-items">
                             <h6>Services</h6>
                             <p>{renderServices()}</p>
@@ -184,7 +196,7 @@ const BookingSummary = () => {
                             />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" size="large" htmlType="submit">
                                 Submit
                             </Button>
                         </Form.Item>
@@ -196,14 +208,101 @@ const BookingSummary = () => {
                     <Button size="large" type="primary" onClick={showConfirm}>
                         Cancel
                     </Button>
-                    <Button size="large" type="primary" onClick={{}}>
+                    <Button 
+                        size="large" 
+                        type="primary" 
+                        onClick={() => {
+                            setOpenDrawer(true)
+                        }}
+                    >
                         Reschedule
                     </Button>
-                    <Button size="large" type="primary" onClick={{}}>
+                    <Button 
+                        size="large" 
+                        type="primary" 
+                        onClick={ () => {
+                            setIsModalOpen(true)
+                        }}
+                    >
                         Pay Now
                     </Button>
                 </div>
             ) : null}
+            <Modal 
+                title="Confirm Payment" 
+                open={isModalOpen} 
+                onOk={() => {
+                    processPayment()
+                    setIsModalOpen(false)
+                } }
+                onCancel={()=>{setIsModalOpen(false)}}
+            >
+                <p>The booking amount will be deducted from your existing card.</p>
+                <p>Are you sure you want to continue?</p>
+            </Modal>
+            <Drawer
+                  title="Reschedule Appointment"
+                  placement="right"
+                  onClose={() => {setOpenDrawer(false)}}
+                  open={openDrawer}
+                >
+                <div>
+                    <Form
+                            name="basic"
+                            onFinish={reschedule}
+                            onFinishFailed={onFinishFailed}
+                            autoComplete="off"
+                        >
+                        <div className="date-selection">
+                            {/* <h6>Select Time</h6> */}
+                            <Form.Item
+                                label="Select New Time"
+                                name="time"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please enter the new appointment time",
+                                    },
+                                ]}
+                            >
+                                <TimePicker
+                                    use12Hours
+                                    format={'HH'}
+                                    showNow={false}
+                                />
+                            </Form.Item>
+                        </div>
+                        <div className="date-selection">
+                            {/* <h6>Select Time</h6> */}
+                            <Form.Item
+                                label="Select New Date"
+                                name="date"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please enter the new appointment Date",
+                                    },
+                                ]}
+                            >
+                                <DatePicker />
+                            </Form.Item>
+                        </div>
+                        <div className="reschedule-btn-row">
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit">
+                                    Submit
+                                </Button>
+                            </Form.Item>
+                            <Button 
+                                onClick={() => setOpenDrawer(false)}
+                                className="cancel-btn"
+                            >
+                                Cancel
+                            </Button>
+                        </div>
+                    </Form>
+                </div>
+            </Drawer>
         </div>
     );
 };

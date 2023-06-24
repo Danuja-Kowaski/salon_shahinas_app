@@ -1,7 +1,9 @@
 @import '../../../styles/variables.sass'
 
 .login-section
-    height: 100vh
+    min-height: 100vh
+    color: white
+
     
     .form-wrapper
         position: absolute
@@ -16,7 +18,7 @@
             display: flex
             flex-direction: column
             align-items: center
-            background-color: $secondary
+            background-color: rgba(255, 63, 153, 0.452)
             border-radius: 20px
             padding: 20px
             margin: 0px 20px 70px 20px
@@ -28,12 +30,12 @@
                     padding: 0
 
             h3
-                font-weight: bold
-
-            
+                font-weight: 500
+                color: $light-purple
 
             label
-                font-weight: 600
+                color: $light-purple
+                font-weight: 500
 
             input, .ant-input-affix-wrapper
                 background-color: $primary
@@ -64,6 +66,7 @@
         align-items: center
 
         p
-            font-weight: bold
+            color: $light-purple
+            font-weight: 500
             font-size: 14px
             margin-bottom: 14px

@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import dayjs from "dayjs";
+import { BgColorsOutlined, CheckOutlined, ColumnHeightOutlined, ColumnWidthOutlined } from "@ant-design/icons";
 
 import "./styles.sass";
 
@@ -59,7 +60,7 @@ const ClientDetails = () => {
         return userApts.map((apt) => {
             return (
                 <div className="client-confirmed-card">
-                    <div className="img-item"></div>
+                    <div className="img-item"><CheckOutlined /></div>
                     <div>
                         <p className="info-title">
                             Booking Status -{" "}
@@ -78,13 +79,13 @@ const ClientDetails = () => {
     };
 
     return (
-        <div div className="client-details-section">
+        <div div className="client-details-section background-theme">
             <div className="client-details">
                 <h4>{client.username}</h4>
                 <h5>Basic Information</h5>
                 <div>
                     <div className="client-detail-item">
-                        <div className="left-items"></div>
+                        <div className="left-items"><BgColorsOutlined /></div>
                         <div className="right-items">
                             <h6>Hair Color Code</h6>
                             <div className="color-indicator">
@@ -97,14 +98,14 @@ const ClientDetails = () => {
                         </div>
                     </div>
                     <div className="client-detail-item">
-                        <div className="left-items"></div>
+                        <div className="left-items"><ColumnHeightOutlined /></div>
                         <div className="right-items">
                             <h6>Hair Length</h6>
                             <p>{client.length ? client.length : "Unknown"}</p>
                         </div>
                     </div>
                     <div className="client-detail-item">
-                        <div className="left-items"></div>
+                        <div className="left-items"><ColumnWidthOutlined /></div>
                         <div className="right-items">
                             <h6>Hair Thickness</h6>
                             <p>

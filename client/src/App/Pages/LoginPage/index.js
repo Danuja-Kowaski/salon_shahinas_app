@@ -47,7 +47,7 @@ const LoginPage = () => {
     const onFinish = async (values) => {
         try {
             const res = await axios.post("http://localhost:5500/api/login", {
-                username: values.username,
+                name: values.username,
                 password: values.password,
             });
             console.log(res.data);
@@ -69,7 +69,7 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="login-section">
+        <div className="login-section background-theme">
             <div className="form-wrapper">
                 <div className="form-sub-wrapper">
                     <h3>Sign in</h3>

@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import axios from "axios";
 import { Tabs } from "antd";
+import { CheckOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
@@ -56,7 +57,7 @@ const Appointments = () => {
                     onClick={(event) => openAppointmentInfo(event, i)}
                     key={i}
                 >
-                    <div className="img-item"></div>
+                    <div className="img-item"><CheckOutlined /></div>
                     <div className="info-item">
                         <p className="title">Booking Details</p>
                         <p>
@@ -115,7 +116,7 @@ const Appointments = () => {
         // },
     ];
     return (
-        <div className="appointments-section">
+        <div className="appointments-section background-theme">
             <h4>Appointments</h4>
             <Tabs defaultActiveKey="1" centered size={"large"} items={tabs} />
             <div className="footer"></div>

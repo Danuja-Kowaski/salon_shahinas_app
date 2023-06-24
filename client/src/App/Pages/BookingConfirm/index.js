@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Button } from "antd";
+import { Button, Drawer, Space, Input } from "antd";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -21,7 +21,6 @@ const BookingConfirm = () => {
   let services = [];
   const [open, setOpen] = useState(false);
   const [openCamDrawer, setOpenCamDrawer] = useState(false);
-  const [size, setSize] = useState();
   const [thickness, setThickness] = useState("");
 
     const [playing, setPlaying] = useState(false);
@@ -117,7 +116,7 @@ const BookingConfirm = () => {
     };
 
     const onClose = () => {
-      setOpen(false);
+      setOpenCamDrawer(false);
     };
 
     const renderBookingSection = () => {
@@ -125,7 +124,7 @@ const BookingConfirm = () => {
             return <div>Please retry from home page</div>;
         }
         return (
-            <div div className="booking-confirm-section">
+            <div div className="booking-confirm-section background-theme">
                 <div className="date-time-info">
                     <div className="date-time-item">
                         <h4>Selected Time</h4>
@@ -152,7 +151,6 @@ const BookingConfirm = () => {
                         <div className="measurement-item">
                             <Button
                                 size={"large"}
-                                type="primary"
                                 onClick={() => {
                                     setOpen(true);
                                 }}
@@ -161,7 +159,7 @@ const BookingConfirm = () => {
                             </Button>
                         </div>
                         <div className="measurement-item">
-                            <Button size={"large"} type="primary" onClick={() => {setOpenCamDrawer(true)}}>
+                            <Button size={"large"} onClick={() => {setOpenCamDrawer(true)}}>
                                 Length: Check
                             </Button>
                         </div>
@@ -277,19 +275,10 @@ const BookingConfirm = () => {
                     </div>
                 </Drawer>
                 <Drawer
-                  title={`${size} Drawer`}
+                  title="Measure Length"
                   placement="right"
-                  size={size}
                   onClose={onClose}
                   open={openCamDrawer}
-                  extra={
-                    <Space>
-                      <Button onClick={onClose}>Cancel</Button>
-                      <Button type="primary" onClick={onClose}>
-                        OK
-                      </Button>
-                    </Space>
-                  }
                 >
                   <div>
                   <p>Some contents...</p>

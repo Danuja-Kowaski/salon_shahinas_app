@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import axios from "axios";
 import { Skeleton } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 import "./styles.sass";
 
@@ -44,7 +45,7 @@ const ClientReviews = () => {
         return reviews.map((review, i) => {
             return (
                 <div className="review-item" key={i}>
-                    <div className="img-item"></div>
+                    <div className="img-item"><UserOutlined /></div>
                     <div className="review-info">
                         <h5>{findUsername(review.user_id)?.username}</h5>
                         <p>
@@ -57,7 +58,7 @@ const ClientReviews = () => {
     };
 
     return (
-        <div className="review-section">
+        <div className="review-section background-theme">
             <h2>Client Reviews</h2>
             {reviews.length > 0 ?
                 renderReviews()

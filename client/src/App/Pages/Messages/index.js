@@ -56,7 +56,7 @@ const Messages = () => {
     };
 
     return (
-        <div className="messages-section">
+        <div className="messages-section background-theme">
             <h4>Message Us</h4>
             <Divider />
             <div className="messages-wrapper">{renderMessages()}</div>

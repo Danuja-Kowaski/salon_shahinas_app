@@ -28,7 +28,7 @@ const Profile = () => {
     }, []);
 
     return (
-        <div className="profile-section">
+        <div className="profile-section background-theme">
             <h4>My Profile</h4>
             <div className="profile-header">
                 <div className="profile-img">

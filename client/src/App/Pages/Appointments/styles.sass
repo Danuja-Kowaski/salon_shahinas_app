@@ -1,7 +1,7 @@
 @import '../../../styles/variables.sass'
 
 .appointments-section
-    height: calc(100vh - 60px)
+    min-height: calc(100vh - 60px)
     width: 100%
     padding: 20px
 
@@ -9,11 +9,15 @@
         font-weight: bold
         margin-top: 30px
         margin-bottom: 20px
+        color: $light-purple
 
     .ant-tabs-tab-btn
         font-size: 17px
         font-weight: bold
         font-family: "Montserrat", sans-serif
+
+    .ant-tabs-tab-active, .ant-tabs-tab-btn
+        color: $dark-pink !important
 
 
     .appointment-item
@@ -21,7 +25,7 @@
         display: flex
         flex-direction: row
         align-items: center
-        background-color: $secondary
+        background-color: rgba(255, 63, 153, 0.452)
         padding: 15px 20px 
         margin-bottom: 15px
         border-radius: 10px
@@ -31,8 +35,12 @@
             min-width: 60px
             height: 60px
             border-radius: 100%
-            background-color: #9c9c9c
-            border: 2px dashed #1b4e79
+            background-color: $light-blue
+            border: 2px dashed $dark-pink
+            font-size: 35px
+            color: $light-purple
+            display: flex
+            justify-content: center
 
         .info-item
             margin-left: 20px

@@ -4,6 +4,11 @@ import { Calendar, Button, Drawer } from "antd";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { getLoggedInUser } from "../../utils";
+import dressing from "../../Assets/Media/Images/dressing.png"
+import nails from "../../Assets/Media/Images/nails.png"
+import makeup from "../../Assets/Media/Images/makeup.png"
+import hair from "../../Assets/Media/Images/hair.png"
+
 
 import "./styles.sass";
 
@@ -25,31 +30,44 @@ const HomePage = () => {
     }, [])
 
     return (
-        <div div className="home-section">
+        <div div className="home-section background-theme">
             <div className="page-header-intro">
                 <h1>Hello, {user.username}</h1>
                 <h6>Welcome to Salon Shahina's</h6>
             </div>
             <div className="page-banner">
-                <div className="image"></div>
+                <div className="image">
+                    <img 
+                        className="image-source"
+                        src="https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
+                    />
+                </div>
             </div>
             <div className="user-selection-wrapper">
                 <p>What would you like to do?</p>
                 <div className="user-selection-options" onClick={() => {setOpen(true)}}>
                     <div className="selection-item">
-                        <div></div>
+                        <div>
+                            <img src={hair} className="image-item" />
+                        </div>
                         <p>Hair</p>
                     </div>
                     <div className="selection-item">
-                        <div></div>
+                        <div>
+                            <img src={nails} className="image-item" />
+                        </div>
                         <p>Nails</p>
                     </div>
                     <div className="selection-item">
-                        <div></div>
+                        <div>
+                            <img src={dressing} className="image-item" />
+                        </div>
                         <p>Dressing</p>
                     </div>
                     <div className="selection-item">
-                        <div></div>
+                        <div>
+                            <img src={makeup} className="image-item" />
+                        </div>
                         <p>Makeup</p>
                     </div>
                 </div>

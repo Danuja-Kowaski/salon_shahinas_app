@@ -1,26 +1,28 @@
 @import '../../../styles/variables.sass'
 
-
 .booking-summary-section
-    height: 100%
+    min-height: calc(100vh - 60px)
     display: flex
     flex-direction: column
     justify-content: space-evenly
     overflow-y: scroll
     padding: 30px 20px 20px 20px
 
+
+
     .booking-confirmed-wrapper
 
         h2
             font-weight: bold
             margin-bottom: 20px
+            color: $light-purple
 
         .booking-confirmed-card
             display: flex
             flex-direction: row
             align-items: center
             border-radius: 15px
-            background-color: #F0F1F3
+            background-color: $primary-light
             padding: 15px 20px 15px 20px
             margin-bottom: 30px
 
@@ -29,12 +31,16 @@
                 padding-bottom: 3px
 
             .img-item
-                width: 55px
+                min-width: 55px
                 height: 55px
                 border-radius: 100%
-                background-color: #9c9c9c
-                border: 2px dashed #1b4e79
                 margin-right: 15px
+                background-color: $light-blue
+                border: 2px dashed $light-purple
+                font-size: 30px
+                color: $dark-pink
+                display: flex
+                justify-content: center
 
             p
                 font-weight: bold
@@ -48,6 +54,8 @@
 
         h4
             margin-bottom: 20px
+            color: $light-purple
+            font-weight: bold
         
         .booking-detail-item
             display: flex
@@ -55,19 +63,19 @@
             padding-left: 20px
 
             .left-items
-                width: 55px
                 min-width: 55px
                 height: 55px
                 border-radius: 100%
-                background-color: #9c9c9c
-                border: 2px dashed #1b4e79
                 margin-right: 15px
+                background-color: $light-blue
+                border: 2px dashed $light-purple
+                font-size: 30px
+                color: $dark-pink
+                display: flex
+                justify-content: center
 
                 h6
                     font-weight: bold
-
-        h4
-            font-weight: bold
 
     .price-info
         padding-bottom: 15px
@@ -75,6 +83,7 @@
         h4
             font-weight: bold
             margin-bottom: 20px
+            color: $light-purple
 
         p
             font-weight: bold
@@ -96,13 +105,13 @@
             display: flex
             flex-direction: row
             justify-content: center
-            padding-bottom: 70px
+            padding-bottom: 20px
             
             div
                 font-weight: bold
-                background-color: #D9D9D9
+                background-color: $light-purple
                 border-radius: 7px
-                padding: 5px 20px 5px 20px
+                padding: 10px 20px 10px 20px
 
     .cancel-btn-row
         padding: 20px
@@ -110,5 +119,15 @@
         justify-content: space-between
         padding-bottom: 70px
 
+    .review-row
+        padding-bottom: 70px
 
+.reschedule-btn-row
+    display: flex
+    padding-bottom: 70px
 
+    .cancel-btn
+        margin-left: 20px
+
+.ant-modal-content, .ant-modal-header
+    background-color: $light-blue!important

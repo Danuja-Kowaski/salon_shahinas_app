@@ -63,7 +63,7 @@ const BookingPage = () => {
     };
 
     return (
-        <div div className="booking-section">
+        <div div className="booking-section background-theme">
             <Form
                 name="basic"
                 // style={{ maxWidth: 600 }}

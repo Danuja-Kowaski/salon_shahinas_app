@@ -104,17 +104,19 @@ const AdminSchedule = () => {
     };
 
     return (
-        <div className="admin-schedule-section">
+        <div className="admin-schedule-section background-theme">
             <div className="schedule-header">
-                <h2>Check Date</h2>
-                <span>
-                    <DatePicker
-                        size={"large"}
-                        format={"DD/MM/YYYY"}
-                        onChange={updateDate}
-                        defaultValue={dayjs()}
-                    />
-                </span>
+                <div className="schedule-sub-header">
+                    <h2>Check Date</h2>
+                    <span>
+                        <DatePicker
+                            size={"large"}
+                            format={"DD/MM/YYYY"}
+                            onChange={updateDate}
+                            defaultValue={dayjs()}
+                        />
+                    </span>
+                </div>
             </div>
             <div className="info-wrapper">{renderInfo()}</div>
             <div className="footer"></div>
