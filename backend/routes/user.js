@@ -43,11 +43,9 @@ router.post('/api/login', async (req, res) => {
         const emp = await Employee.findOne({ empName : body.name })
         if (user){
             if (user.password === body.password){
-                if (user.user_type === 'CLIENT') {
+                if (user.user_type === 'CLIENT' || user.user_type === 'EMP' || user.user_type === 'ADMIN') {
                     return res.status(200).json({user: user});
-                  } else if (user.user_type === 'EMP') {
-                    return res.status(200).json({user: user});
-                   }
+                  }
             }
             else{
                 return res.status(401).json({ message: 'Invalid username or password' });  
