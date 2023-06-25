@@ -19,8 +19,10 @@ router.post('/api/appointment/:id/:empid', async (req, res) => {
             emp_id:req.params.empid,
             bookingDate: req.body.bookingDate,
             services: req.body.services,
+            hair_thickness : req.body.hair_thickness,
+            hair_length : req.body.hair_length,
             isPaid: req.body.isPaid,
-            status: req.body.status
+            status: req.body.status,
             }).save()
             emp.appointments.push(newAppointment._id)
             user.appointments.push(newAppointment._id)
@@ -60,22 +62,34 @@ router.put('/api/appointment/update/:id', async (req, res) => {
 router.get('/api/appointments', async (req, res) => {
         try{
             const allAppointments = await Appointment.find({});
-            res.status(200).json(allAppointments)
+            const cancelledAppointments = allAppointments.filter(appointment => appointment.isCancelled === true);
+            const activeAppointments = allAppointments.filter(appointment => appointment.isCancelled === false);
+            res.status(200).json(activeAppointments);
         }catch(err){
             res.json(err);
         }   
 })
 
-//Delete an appointment from an id move it to cancel
-router.delete('/api/appointments/:id', async (req, res) => {
-  try {
-    const appointment = await Appointment.deleteOne({ _id: req.params.id });
-    if (appointment.deletedCount === 1) {
-      return res.status(200).json({ message: 'Appointment deleted successfully' });
-    } else {
-      return res.status(404).json({ message: 'Appointment not found' });
-    }
+router.get('/api/appointments/cancelled', async (req, res) => {
+  try{
+      const allAppointments = await Appointment.find({});
+      const cancelledAppointments = allAppointments.filter(appointment => appointment.isCancelled === true);
+      res.status(200).json(cancelledAppointments);
+  }catch(err){
+      res.json(err);
+  }   
+})
 
+//Delete an appointment from an id move it to cancel
+router.get('/api/appointments/:id', async (req, res) => {
+  try {
+    const appointment = await Appointment.findOne({ _id: req.params.id });
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' }); 
+    }
+    appointment.isCancelled = true;
+    appointment.save();
+    return res.status(200).json({ message: 'Appointment deleted successfully' }); 
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: 'Internal Server Error' });

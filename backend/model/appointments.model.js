@@ -24,6 +24,12 @@ const appointmentSchema = new mongoose.Schema({
         type: String,
     },
 }],
+hair_thickness : {
+  type : Number
+},
+hair_length : {
+  type : Number
+},
 comment:[{
   type: mongoose.Schema.Types.ObjectId, ref: 'Review'
 }],
