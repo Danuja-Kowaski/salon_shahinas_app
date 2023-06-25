@@ -37,7 +37,7 @@ router.post('/api/appointment/:id/:empid', async (req, res) => {
 });
 
 // Update an appointment
-router.post('/api/appointment/update/:id', async (req, res) => {
+router.put('/api/appointment/update/:id', async (req, res) => {
   try {
     const { user_id, bookingDate, services, isPaid, isCancelled } = req.body;
     const updatedAppointment = await Appointment.findOne({_id: req.params.id});
