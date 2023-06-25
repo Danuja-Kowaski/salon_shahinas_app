@@ -39,11 +39,18 @@ router.post('/api/appointment/:id/:empid', async (req, res) => {
 // Update an appointment
 router.put('/api/appointment/update/:id', async (req, res) => {
   try {
-    const updatedAppointment = Appointment.findByIdAndUpdate(req.params.id, {$set:req.body}, { new: true }).exec();;
+    const { user_id, bookingDate, services, isPaid, status } = req.body;
+    const updatedAppointment = await Appointment.findOne({_id: req.params.id});
     if (!updatedAppointment){
       return res.status(404).json({ message : "Unable to find appointment"});
     }
-    return res.status(200).json(updatedAppointment)
+    updatedAppointment.user_id = user_id;
+    updatedAppointment.bookingDate = bookingDate;
+    updatedAppointment.services = services;
+    updatedAppointment.isPaid = isPaid;
+    updatedAppointment.status = status;
+    await updatedAppointment.save();
+    return res.status(200).json(updatedAppointment);
   } catch (error) {
     console.log("System trace ", error)
   }
