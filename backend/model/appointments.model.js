@@ -29,8 +29,10 @@ comment:[{
 }],
 isPaid:{
   type: String
-}
-});
+},
+status : {
+  type : String
+}});
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);
 module.exports = Appointment; 

@@ -19,6 +19,8 @@ router.post('/api/appointment/:id/:empid', async (req, res) => {
             emp_id:req.params.empid,
             bookingDate: req.body.bookingDate,
             services: req.body.services,
+            isPaid: req.body.isPaid,
+            status: req.body.status
             }).save()
             emp.appointments.push(newAppointment._id)
             user.appointments.push(newAppointment._id)
@@ -35,8 +37,18 @@ router.post('/api/appointment/:id/:empid', async (req, res) => {
 });
 
 // Update an appointment
-// router.put('/api/appointment/update/:id', async (req, res) => {
-// })
+router.put('/api/appointment/update/:id', async (req, res) => {
+  try {
+    const updatedAppointment = Appointment.findByIdAndUpdate(req.params.id, {$set:req.body}, { new: true }).exec();;
+    if (!updatedAppointment){
+      return res.status(404).json({ message : "Unable to find appointment"});
+    }
+    return res.status(200).json(updatedAppointment)
+  } catch (error) {
+    console.log("System trace ", error)
+  }
+
+})
 
 //Get all appointments
 router.get('/api/appointments', async (req, res) => {
