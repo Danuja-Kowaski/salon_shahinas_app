@@ -37,9 +37,9 @@ router.post('/api/appointment/:id/:empid', async (req, res) => {
 });
 
 // Update an appointment
-router.put('/api/appointment/update/:id', async (req, res) => {
+router.post('/api/appointment/update/:id', async (req, res) => {
   try {
-    const { user_id, bookingDate, services, isPaid, status } = req.body;
+    const { user_id, bookingDate, services, isPaid, isCancelled } = req.body;
     const updatedAppointment = await Appointment.findOne({_id: req.params.id});
     if (!updatedAppointment){
       return res.status(404).json({ message : "Unable to find appointment"});
@@ -48,13 +48,12 @@ router.put('/api/appointment/update/:id', async (req, res) => {
     updatedAppointment.bookingDate = bookingDate;
     updatedAppointment.services = services;
     updatedAppointment.isPaid = isPaid;
-    updatedAppointment.status = status;
+    updatedAppointment.isCancelled = isCancelled;
     await updatedAppointment.save();
     return res.status(200).json(updatedAppointment);
   } catch (error) {
     console.log("System trace ", error)
   }
-
 })
 
 //Get all appointments
@@ -67,7 +66,7 @@ router.get('/api/appointments', async (req, res) => {
         }   
 })
 
-//Delete an appointment from an id
+//Delete an appointment from an id move it to cancel
 router.delete('/api/appointments/:id', async (req, res) => {
   try {
     const appointment = await Appointment.deleteOne({ _id: req.params.id });

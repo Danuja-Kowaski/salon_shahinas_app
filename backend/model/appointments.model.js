@@ -28,11 +28,14 @@ comment:[{
   type: mongoose.Schema.Types.ObjectId, ref: 'Review'
 }],
 isPaid:{
-  type: String
+  type: Boolean,
+  default: false
 },
-status : {
-  type : String
-}});
+isCancelled:{
+  type: Boolean,
+  default: false
+},
+});
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);
 module.exports = Appointment; 
