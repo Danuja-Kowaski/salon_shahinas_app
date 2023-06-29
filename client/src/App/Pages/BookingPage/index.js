@@ -13,9 +13,7 @@ const BookingPage = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
     const [employees, setEmployees] = useState([]);
-
     const { date } = state;
-
     const format = "HH";
 
     const handleChange = (value) => {
@@ -29,6 +27,17 @@ const BookingPage = () => {
     useEffect(() => {
         console.log("emp", employees);
     }, [employees]);
+
+    const disabledHours = () => {
+        if(!dayjs().isSame(date, 'day')) return [];
+        let hours = [];
+        const currentHour = dayjs().hour();
+    
+        for (let i = currentHour + 1; i >= 0; i--) {
+          hours.push(i);
+        }
+        return hours;
+    };
 
     const getEmployees = async () => {
         try {
@@ -96,6 +105,7 @@ const BookingPage = () => {
                             use12Hours
                             format={format}
                             showNow={false}
+                            disabledHours={disabledHours}
                         />
                     </Form.Item>
                 </div>
