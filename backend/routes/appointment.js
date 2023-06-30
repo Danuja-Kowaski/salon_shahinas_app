@@ -28,7 +28,7 @@ router.post('/api/appointment/:id/:empid', async (req, res) => {
             user.appointments.push(newAppointment._id)
             const userdata = await user.save();
             const empdata = await emp.save();
-            res.status(200).json({ message: 'Appointment added successfully' });
+            res.status(200).json({ message: 'Appointment added successfully', appointment: newAppointment });
         }
         else{
           return res.status(404).json({ message: 'Client not found' });

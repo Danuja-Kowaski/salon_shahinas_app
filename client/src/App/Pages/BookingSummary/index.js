@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Button, Form, Modal, Drawer, Space, DatePicker, TimePicker } from "antd";
+import { Button, Form, Modal, Drawer, Space, Calendar, TimePicker } from "antd";
 import { ExclamationCircleFilled, UserOutlined, ScheduleOutlined, UnorderedListOutlined, CheckOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,10 +15,14 @@ const BookingSummary = () => {
     const navigate = useNavigate();
     const user = getLoggedInUser();
     const { state } = useLocation();
-    const { info, showBooking } = state;
+    const { info, showBooking, isCancelled } = state;
     const { confirm } = Modal;
     const [openDrawer, setOpenDrawer] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [date, setDate] = useState(null);
+    const [reviewModalOpen, setReviewModalOpen] = useState(false);
+    const [review, setReview] = useState("");
+    const [isReviewed, setIsReviewed] = useState(false);
 
     let total = 0;
 
@@ -32,7 +36,25 @@ const BookingSummary = () => {
 
     useEffect(() => {
         //get all reviews and check if review is present for this booking
+        findReview()
     }, []);
+
+    const findReview = async () => {
+        try {    
+            const res = await axios.get(
+                `http://localhost:5500/api/reviews`,
+                {}
+            );
+            console.log("all reviews", res.data);
+            const currentReview = res.data.find((review) => review?.app_id === info._id)
+            console.log("found reviews", currentReview)
+            if(currentReview){
+                setIsReviewed(true)
+            };
+        } catch (error) {
+            console.log("error", error);
+        };
+    };
 
     const showConfirm = () => {
         confirm({
@@ -86,33 +108,70 @@ const BookingSummary = () => {
         navigate("/appointments");
     };
 
-    const onFinish = async (value) => {
+    const processReview = async () => {
         // Submit review
-        console.log("value", value);
+        console.log("review", review);
         try {
-            // const res = await axios.post(
-            //     `http://localhost:5500/api/review/${info._id}`,
-            //     {
-            //         comment: value.review
-            //     }
-            // );
-            // console.log("review sent", res);
+
+            const res = await axios.post(
+                `http://localhost:5500/api/review/${info._id}`,
+                {
+                    comment: review
+                }
+            );
+            console.log("review sent", res);
+            setIsReviewed(true);
         } catch (error) {
             console.log("error", error);
         }
+    };
+
+    const disabledHours = () => {
+        if(!dayjs().isSame(date, 'day')) return [];
+        let hours = [];
+        const currentHour = dayjs().hour();
+    
+        for (let i = currentHour + 1; i >= 0; i--) {
+          hours.push(i);
+        }
+        return hours;
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);
     };
 
-    const reschedule = (values) => {
+    const reschedule = async (values) => {
         console.log("values", values)
         setOpenDrawer(false);
+        let newDate= dayjs(date);
+        let time = values.time.format("H");
+        info.bookingDate = newDate.add(time, "hour").format();
+        console.log("newbdate", info.bookingDate);
+        try {
+            const res = await axios.put(
+                `http://localhost:5500/api/appointment/update/${info._id}`, 
+                info
+            );
+            console.log("appointment updated", res);
+        } catch (error) {
+            console.log("error", error);
+        }
     };
 
-    const processPayment = () => {
+    const processPayment = async () => {
         //Update payment status
+        console.log("payment info", info);
+        info.isPaid = true
+        try {
+            const res = await axios.put(
+                `http://localhost:5500/api/appointment/update/${info._id}`, 
+                info
+            );
+            console.log("review sent", res);
+        } catch (error) {
+            console.log("error", error);
+        }
     };
 
     return (
@@ -165,17 +224,22 @@ const BookingSummary = () => {
                     <p>{total}/=</p>
                 </div>
             </div>
-            <div className="payment-status-row">
-                <div>
-                    Payment Status{" "}
-                    {completed ? ": Paid in cash" : "Yet to be Paid"}
-                </div>
-            </div>
-            {showBooking && completed ? (
+            {!isCancelled ?
+                <div className="payment-status-row">
+                    <div>
+                        {"Payment Status: "}
+                        {completed || info?.isPaid ? "Paid through app" : "Yet to be Paid"}
+                    </div>
+                </div> 
+            : null}
+            {showBooking && completed  && !isCancelled && !isReviewed ? (
                 <div className="review-row">
                     <Form
                         name="basic"
-                        onFinish={onFinish}
+                        onFinish={(values) => {
+                            setReviewModalOpen(true)
+                            setReview(values.review)
+                        }}
                         onFinishFailed={onFinishFailed}
                         autoComplete="off"
                     >
@@ -203,7 +267,7 @@ const BookingSummary = () => {
                     </Form>
                 </div>
             ) : null}
-            {!completed ? (
+            {!completed && !isCancelled? (
                 <div className="cancel-btn-row">
                     <Button size="large" type="primary" onClick={showConfirm}>
                         Cancel
@@ -217,15 +281,17 @@ const BookingSummary = () => {
                     >
                         Reschedule
                     </Button>
-                    <Button 
-                        size="large" 
-                        type="primary" 
-                        onClick={ () => {
-                            setIsModalOpen(true)
-                        }}
-                    >
-                        Pay Now
-                    </Button>
+                    {!info.isPaid ?
+                        <Button 
+                            size="large" 
+                            type="primary" 
+                            onClick={ () => {
+                                setIsModalOpen(true)
+                            }}
+                        >
+                            Pay Now
+                        </Button>
+                    : null}
                 </div>
             ) : null}
             <Modal 
@@ -239,6 +305,17 @@ const BookingSummary = () => {
             >
                 <p>The booking amount will be deducted from your existing card.</p>
                 <p>Are you sure you want to continue?</p>
+            </Modal>
+            <Modal 
+                title="Confirm Review" 
+                open={reviewModalOpen} 
+                onOk={() => {
+                    processReview()
+                    setReviewModalOpen(false)
+                } }
+                onCancel={()=>{setReviewModalOpen(false)}}
+            >
+                <p>Are you sure you want to submit this review?</p>
             </Modal>
             <Drawer
                   title="Reschedule Appointment"
@@ -269,6 +346,7 @@ const BookingSummary = () => {
                                     use12Hours
                                     format={'HH'}
                                     showNow={false}
+                                    disabledHours={disabledHours}
                                 />
                             </Form.Item>
                         </div>
@@ -284,7 +362,16 @@ const BookingSummary = () => {
                                     },
                                 ]}
                             >
-                                <DatePicker />
+                                <Calendar
+                                    fullscreen={false}
+                                    onChange={(value) => {
+                                        setDate(value.format("YYYY-MM-DD"));
+                                    }}
+                                    validRange={[
+                                        dayjs().startOf("day"),
+                                        dayjs().add(6, "month"),
+                                    ]}
+                                />
                             </Form.Item>
                         </div>
                         <div className="reschedule-btn-row">

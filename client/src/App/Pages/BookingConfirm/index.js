@@ -92,7 +92,7 @@ const BookingConfirm = () => {
 
   const submitBooking = async () => {
     try {
-      const info = {
+      let info = {
         id: user._id,
         empid: data.stylists,
         bookingDate: data.date,
@@ -102,7 +102,8 @@ const BookingConfirm = () => {
         `http://localhost:5500/api/appointment/${user._id}/${data.stylists}`,
         info
       );
-      console.log("user appointments", res.data);
+      info = res.data.appointment;
+      console.log("user appointments", res.data.appointment);
       navigate("/booking-summary", { state: { info } });
     } catch (error) {
       console.log(error);

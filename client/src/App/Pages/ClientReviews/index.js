@@ -17,6 +17,7 @@ const ClientReviews = () => {
                     {}
                 );
                 setReviews(res.data);
+                console.log("reviews", res.data)
             } catch (error) {
                 console.log(error);
             }
