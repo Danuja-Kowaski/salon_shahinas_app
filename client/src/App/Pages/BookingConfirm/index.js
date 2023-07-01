@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Button, Drawer, Space, Input } from "antd";
+import { Button, Drawer, Space, message, InputNumber } from "antd";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -19,12 +19,15 @@ const BookingConfirm = () => {
   const date = dayjs(data?.date);
   let total = 0;
   let services = [];
+  const numberRegex = new RegExp("/^\d*\.?\d*$/");
   const [open, setOpen] = useState(false);
   const [openCamDrawer, setOpenCamDrawer] = useState(false);
-  const [thickness, setThickness] = useState("");
-
+  const [thickness, setThickness] = useState(null);
+  const [length, setLength] = useState(11);
   const [playing, setPlaying] = useState(false);
-  
+  const [messageApi, contextHolder] = message.useMessage();
+
+  console.log("data", data);
 
   const startVideo = () => {
     setPlaying(true);
@@ -48,7 +51,12 @@ const BookingConfirm = () => {
     video.srcObject.getTracks()[0].stop();
   };
 
-  console.log("data", data);
+  const error = () => {
+    messageApi.open({
+      type: 'error',
+      content: 'Please enter your hair thickness and length to finish booking ',
+    });
+  };
 
   const renderServiceItems = () => {
     return data.services.map((service) => {
@@ -91,12 +99,20 @@ const BookingConfirm = () => {
   };
 
   const submitBooking = async () => {
+    if(!length || length === "" || !thickness || thickness === "" || numberRegex.test(length) || numberRegex.test(thickness)){
+      console.log(thickness, length)
+      error();
+      return;
+    }
     try {
       let info = {
         id: user._id,
         empid: data.stylists,
         bookingDate: data.date,
         services: services,
+        hair_thickness: thickness,
+        hair_length: length,
+        isPaid: false,
       };
       const res = await axios.post(
         `http://localhost:5500/api/appointment/${user._id}/${data.stylists}`,
@@ -110,8 +126,8 @@ const BookingConfirm = () => {
     }
   };
 
-  const setInput = (e) => {
-    setThickness(e.target.value);
+  const setInput = (value) => {
+    setThickness(value);
   };
 
   const onClose = () => {
@@ -124,6 +140,7 @@ const BookingConfirm = () => {
     }
     return (
       <div div className="booking-confirm-section background-theme">
+        {contextHolder}
         <div className="date-time-info">
           <div className="date-time-item">
             <h4>Selected Time</h4>
@@ -227,8 +244,8 @@ const BookingConfirm = () => {
               </b>
             </div>
             <div className="thickness-input">
-              <Input
-                Placeholder="Enter Thickness"
+              <InputNumber
+                Placeholder="Enter Thickness (Inches)"
                 onChange={setInput}
                 value={thickness}
               />
@@ -240,7 +257,7 @@ const BookingConfirm = () => {
                 setOpen(false);
               }}
             >
-              Back
+              Confirm Thickness
             </Button>
           </div>
         </Drawer>

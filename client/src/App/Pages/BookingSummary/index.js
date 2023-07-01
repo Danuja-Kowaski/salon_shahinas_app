@@ -116,7 +116,8 @@ const BookingSummary = () => {
             const res = await axios.post(
                 `http://localhost:5500/api/review/${info._id}`,
                 {
-                    comment: review
+                    comment: review,
+                    user_id: user._id
                 }
             );
             console.log("review sent", res);

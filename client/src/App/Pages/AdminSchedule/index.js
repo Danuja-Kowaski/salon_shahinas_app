@@ -4,6 +4,8 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { getLoggedInUser } from "../../utils";
 
 import { getSavedEmployees, getSavedClients } from "../../utils";
 
@@ -11,12 +13,14 @@ import "./styles.sass";
 
 const AdminSchedule = () => {
     const { state } = useLocation();
+    const user = getLoggedInUser();
     const [scheduleInfo, setScheduleInfo] = useState([]);
     const [date, setDate] = useState(dayjs());
     const employees = getSavedEmployees();
     const clients = getSavedClients();
+    const navigate = useNavigate();
 
-    const isAdmin = state?.isAdmin;
+    const isAdmin = (user.user_type === "ADMIN");
 
     console.log("isAdmin", isAdmin);
 
@@ -26,6 +30,7 @@ const AdminSchedule = () => {
 
     const getEmployeeAppointments = async () => {
         if (!isAdmin) {
+            // let id = state?.userId ? state.userId : 
             try {
                 const res = await axios.get(
                     `http://localhost:5500/api/emp/${state.userId}`,
@@ -72,6 +77,12 @@ const AdminSchedule = () => {
         return arr.find((item) => item._id === id);
     };
 
+    const navigateToClient = (id) => {
+        navigate("/admin-client-details", {
+            state: { userId: id },
+        });
+    }
+
     const renderInfo = () => {
         let currentBookings = scheduleInfo.filter((item) => {
             return dayjs(item.bookingDate).isSame(date, "day");
@@ -90,7 +101,10 @@ const AdminSchedule = () => {
                         <h6>
                             {time} - {endTime}
                         </h6>
-                        <div className="info-details">
+                        <div 
+                            className="info-details"
+                            onClick={() => navigateToClient(item.user_id)}
+                        >
                             <p>{findName(item.emp_id, employees)?.empName}</p>
                             <p>
                                 Client:{" "}

@@ -117,6 +117,12 @@ const AdminHome = () => {
         return 0;
     };
 
+    const navigateToClient = (id) => {
+        navigate("/admin-client-details", {
+            state: { userId: id },
+        });
+    }
+
     const renderInfo = () => {
         let currentBookings = scheduleInfo.filter((item) => {
             return dayjs(item.bookingDate).isSame(date, "day");
@@ -141,7 +147,10 @@ const AdminHome = () => {
                         <h6>
                             {time} - {endTime}
                         </h6>
-                        <div className="info-details">
+                        <div 
+                            className="info-details" 
+                            onClick={() => navigateToClient(item.user_id)}
+                        >
                             <p>{findName(item.emp_id, employees)?.empName}</p>
                             <p>
                                 Client:{" "}

@@ -125,7 +125,8 @@ router.post('/api/review/:id', async (req, res) => {
     if (appointment) {
         const reviewData = await new Review({ 
           app_id: req.params.id,
-          comment : req.body.comment
+          comment : req.body.comment,
+          user_id : req.body.user_id
          }).save()
          appointment.comment.push(reviewData._id);
         const data = await appointment.save()
