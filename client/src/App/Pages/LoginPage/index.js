@@ -1,15 +1,17 @@
 import { React, useEffect } from "react";
-
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { getLoggedInUser } from "../../utils";
+
 import "./styles.sass";
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const user = getLoggedInUser();
+    const [messageApi, contextHolder] = message.useMessage();
+
 
     useEffect(() => {
         if (user) {
@@ -25,6 +27,13 @@ const LoginPage = () => {
             console.log(error);
         }
     };
+
+    const showError = () => {
+        messageApi.open({
+          type: 'error',
+          content: "Invalid Name or Password",
+        });
+      };
 
     const getClients = async () => {
         try {
@@ -61,6 +70,7 @@ const LoginPage = () => {
             return navigate("/home");
         } catch (error) {
             console.log(error);
+            showError()
         }
     };
 
@@ -70,6 +80,7 @@ const LoginPage = () => {
 
     return (
         <div className="login-section background-theme">
+            {contextHolder}
             <div className="form-wrapper">
                 <div className="form-sub-wrapper">
                     <h3>Sign in</h3>

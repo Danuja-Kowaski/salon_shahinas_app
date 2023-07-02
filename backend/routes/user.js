@@ -58,6 +58,9 @@ router.post('/api/login', async (req, res) => {
             }
             return res.status(401).json({ message: 'Invalid employee name or password' });
         }
+        else{
+            return res.status(401).json({ message: 'Invalid employee name or password' });
+        }
         }catch(err){
         res.json(err);
     }

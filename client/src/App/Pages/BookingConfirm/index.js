@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Button, Drawer, Space, message, InputNumber } from "antd";
+import { Button, Drawer, Space, message, Select } from "antd";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -23,7 +23,7 @@ const BookingConfirm = () => {
   const [open, setOpen] = useState(false);
   const [openCamDrawer, setOpenCamDrawer] = useState(false);
   const [thickness, setThickness] = useState(null);
-  const [length, setLength] = useState(11);
+  const [length, setLength] = useState(Math.floor(Math.random() * (15 - 7) ) + 7);
   const [playing, setPlaying] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -99,8 +99,8 @@ const BookingConfirm = () => {
   };
 
   const submitBooking = async () => {
-    if(!length || length === "" || !thickness || thickness === "" || numberRegex.test(length) || numberRegex.test(thickness)){
-      console.log(thickness, length)
+    console.log(thickness, length)
+    if(!length || length === "" || !thickness || numberRegex.test(length)){
       error();
       return;
     }
@@ -127,6 +127,7 @@ const BookingConfirm = () => {
   };
 
   const setInput = (value) => {
+    console.log("value", value)
     setThickness(value);
   };
 
@@ -244,10 +245,14 @@ const BookingConfirm = () => {
               </b>
             </div>
             <div className="thickness-input">
-              <InputNumber
-                Placeholder="Enter Thickness (Inches)"
+              <Select
+                style={{ width: 120 }}
+                options={[
+                  { value: 'thick', label: 'Thick' },
+                  { value: 'thin', label: 'Thin' }
+                ]}
                 onChange={setInput}
-                value={thickness}
+
               />
             </div>
             <br />
