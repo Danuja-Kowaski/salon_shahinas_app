@@ -24,9 +24,8 @@ const appointmentSchema = new mongoose.Schema({
         type: String,
     },
 }],
-hair_thickness : {
-  type : Number
-},
+hair_thickness : [{type : String
+}],
 hair_length : {
   type : Number
 },
