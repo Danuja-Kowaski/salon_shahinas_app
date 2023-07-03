@@ -29,11 +29,25 @@ const AdminSchedule = () => {
     }, []);
 
     const getEmployeeAppointments = async () => {
+
+        if(state?.userId){
+            try {
+                const res = await axios.get(
+                    `http://localhost:5500/api/emp/${state.userId}`,
+                    {}
+                );
+                console.log("emp appointments", res.data);
+                setScheduleInfo(res.data.appointments);
+            } catch (error) {
+                console.log(error);
+            }
+            return;
+        }
         if (!isAdmin) {
             // let id = state?.userId ? state.userId : 
             try {
                 const res = await axios.get(
-                    `http://localhost:5500/api/emp/${state.userId}`,
+                    `http://localhost:5500/api/emp/${user.employee}`,
                     {}
                 );
                 console.log("emp appointments", res.data);

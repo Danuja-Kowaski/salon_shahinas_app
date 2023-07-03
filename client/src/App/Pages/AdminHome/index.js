@@ -17,6 +17,7 @@ const AdminHome = () => {
     const [appointments, setAppointments] = useState([]);
     const date = dayjs();
     const [scheduleInfo, setScheduleInfo] = useState([]);
+    const [empScheduleInfo, setEmpScheduleInfo] = useState([]);
     const employees = getSavedEmployees();
     const clients = getSavedClients();
     const isAdmin = userType === "ADMIN" ? true : false;
@@ -130,13 +131,29 @@ const AdminHome = () => {
         
         currentBookings.sort(compare);
 
-        if(!currentBookings || currentBookings.length === 0){
+        let newBookings = [];
+
+        if(!isAdmin){
+            console.log("not admin")
+            newBookings = currentBookings.filter((item) => {
+                console.log("item id",item.emp_id )
+                console.log("user.employee",user.employee )
+                console.log("truth",item.emp_id === user.employee )
+                return item.emp_id === user.employee
+            });
+            console.log("newBookings", newBookings)
+        }
+        else{
+            newBookings = currentBookings;
+        }
+
+        if(!newBookings || newBookings.length === 0){
             return <p>No Bookings Scheduled for Today!</p>
         };
 
-        console.log("current bookings", currentBookings);
+        console.log("current bookings", newBookings);
 
-        return currentBookings.map((item) => {
+        return newBookings.map((item) => {
             const time = dayjs(item.bookingDate).format("h:mm A");
             const endTime = dayjs(item.bookingDate)
                 .add(1, "hour")
