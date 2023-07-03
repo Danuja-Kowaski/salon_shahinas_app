@@ -3,35 +3,6 @@ const Employee = require('../model/employee.model');
 //import model
 const User = require('../model/user.model');
 
-
-
-async function linkUserAndEmployee() {
-    try {
-      const users = await User.find();
-      
-      for (const user of users) {
-        const employee = await Employee.findOne({ empName: user.username });
-        
-        if (employee) {
-          user.employee = employee;
-          await user.save();
-        }
-      }
-      
-      console.log('User and Employee data linked successfully.');
-    } catch (error) {
-      console.error('Error linking User and Employee data:', error);
-    }
-  }
-  
-  // Call the function to link User and Employee data
-  linkUserAndEmployee();
-  
-  
-  
-  
-  
-  
 //register emp to db
 router.post('/api/register/emp', async (req, res) => {
     try{
@@ -72,7 +43,7 @@ router.post('/api/login', async (req, res) => {
         const emp = await Employee.findOne({ empName : body.name })
         if (user){
             if (user.password === body.password){
-                if (user.user_type === 'CLIENT' || user.user_type === 'ADMIN') {
+                if (user.user_type === 'CLIENT' || user.user_type === 'ADMIN' || user.user_type === 'EMP') {
                     return res.status(200).json({user: user});
                   }
             }
